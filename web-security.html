@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Security Projects</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        h2 {
+            color: #f5576c;
+            font-size: 2em;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f5576c;
+        }
+
+        h3 {
+            color: #d63384;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05em;
+            color: #444;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            color: #444;
+        }
+
+        strong {
+            color: #f5576c;
+            font-weight: 600;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #f5576c;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .difficulty {
+            font-size: 1.1em;
+            color: #d63384;
+        }
+
+        .time {
+            background: #f5576c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .skills {
+            background: #d63384;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #f8f8f2;
+            font-size: 0.95em;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning strong {
+            color: #856404;
+        }
+
+        .security-note {
+            background: #d1ecf1;
+            border-left: 5px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .security-note strong {
+            color: #0c5460;
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .pitfalls-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .pitfalls-box .wrong {
+            color: #d32f2f;
+            font-weight: 600;
+        }
+
+        .pitfalls-box .right {
+            color: #388e3c;
+            font-weight: 600;
+        }
+
+        .learning-path {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .week-card {
+            background: white;
+            border: 2px solid #f5576c;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .week-card h4 {
+            color: #f5576c;
+            margin-top: 0;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .resource-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 4px solid #f5576c;
+        }
+
+        .resource-card h4 {
+            color: #f5576c;
+            margin-top: 0;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #f093fb, #f5576c);
+            margin: 40px 0;
+            border-radius: 2px;
+        }
+
+        .footer {
+            background: #2d2d2d;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #ccc;
+            margin: 5px 0;
+        }
+
+        .tags {
+            margin-top: 20px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #f5576c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 5px;
+        }
+
+        .takeaways {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .takeaways h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .takeaways ul {
+            color: white;
+        }
+
+        .next-steps {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+
+        .next-steps ol {
+            color: #2e7d32;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            h3 {
+                font-size: 1.3em;
+            }
+
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .learning-path {
+                grid-template-columns: 1fr;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .emoji {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Web Security Projects</h1>
+            <p class="subtitle">Learn web application security and vulnerability assessment!</p>
+        </div>
+
+        <div class="content">
+            <h2>Introduction</h2>
+            <p>Web applications are a common attack vector. These projects focus on web security fundamentals, including log analysis, vulnerability scanning, and understanding common web threats like the OWASP Top 10.</p>
+
+            <div class="security-note">
+                <strong>🔒 Ethical Hacking Note:</strong> Always practice cybersecurity skills legally and ethically. Only test systems you own or have explicit permission to test. Unauthorized access to computer systems is illegal.
+            </div>
+
+            <hr>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <h2 style="margin: 0; border: none; padding: 0;">Project 4: Log Analyzer & Intrusion Detection</h2>
+                </div>
+                <div class="project-header">
+                    <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐☆☆</span>
+                    <span class="time"><strong>Time:</strong> 5-6 hours</span>
+                    <span class="skills"><strong>Skills:</strong> Log analysis, pattern recognition, threat detection</span>
+                </div>
+
+                <h3>What You'll Build</h3>
+                <p>A tool that analyzes system logs to detect suspicious activities and potential security threats.</p>
+
+                <h3>Learning Outcomes</h3>
+                <ul>
+                    <li>Log file parsing and analysis</li>
+                    <li>Pattern matching for threats</li>
+                    <li>Anomaly detection basics</li>
+                    <li>Security event correlation</li>
+                </ul>
+
+                <h3>Implementation Steps</h3>
+                <ol>
+                    <li>Parse common log formats (Apache, syslog, auth.log)</li>
+                    <li>Identify suspicious patterns (failed logins, unusual access)</li>
+                    <li>Implement basic rule-based detection</li>
+                    <li>Generate security alerts</li>
+                    <li>Create summary reports</li>
+                </ol>
+
+                <h3>Key Libraries</h3>
+                <pre><code>import re
+from collections import Counter
+from datetime import datetime
+
+def analyze_auth_log(log_file):
+    failed_logins = []
+    with open(log_file, 'r') as f:
+        for line in f:
+            if 'Failed password' in line:
+                ip = extract_ip(line)
+                failed_logins.append(ip)
+    
+    # Detect brute force attempts
+    ip_counts = Counter(failed_logins)
+    suspicious_ips = [ip for ip, count in ip_counts.items() if count > 5]
+    return suspicious_ips</code></pre>
+
+                <h3>Detection Patterns</h3>
+                <ul>
+                    <li>Multiple failed login attempts (brute force)</li>
+                    <li>Unusual access times</li>
+                    <li>Suspicious IP addresses</li>
+                    <li>Privilege escalation attempts</li>
+                </ul>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <h2 style="margin: 0; border: none; padding: 0;">Project 6: Web Vulnerability Scanner</h2>
+                </div>
+                <div class="project-header">
+                    <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐☆☆</span>
+                    <span class="time"><strong>Time:</strong> 5-7 hours</span>
+                    <span class="skills"><strong>Skills:</strong> Web security, HTTP protocols, vulnerability assessment</span>
+                </div>
+
+                <h3>What You'll Build</h3>
+                <p>A basic web application scanner that detects common vulnerabilities like SQL injection, XSS, and insecure headers.</p>
+
+                <h3>Practical Application</h3>
+                <p>Web security is critical! You'll learn:</p>
+                <ul>
+                    <li>HTTP request/response handling</li>
+                    <li>Common web vulnerabilities (OWASP Top 10)</li>
+                    <li>Security header analysis</li>
+                    <li>Automated testing techniques</li>
+                </ul>
+
+                <h3>Implementation</h3>
+                <ol>
+                    <li>Send HTTP requests to target URLs</li>
+                    <li>Check for security headers (HSTS, CSP, X-Frame-Options)</li>
+                    <li>Test for SQL injection vulnerabilities</li>
+                    <li>Test for XSS vulnerabilities</li>
+                    <li>Generate security report</li>
+                </ol>
+
+                <h3>Key Libraries</h3>
+                <pre><code>import requests
+from bs4 import BeautifulSoup
+import re
+
+def check_security_headers(url):
+    response = requests.get(url)
+    headers = response.headers
+    
+    security_headers = {
+        'X-Frame-Options': headers.get('X-Frame-Options'),
+        'X-Content-Type-Options': headers.get('X-Content-Type-Options'),
+        'Strict-Transport-Security': headers.get('Strict-Transport-Security'),
+        'Content-Security-Policy': headers.get('Content-Security-Policy')
+    }
+    
+    missing = [h for h, v in security_headers.items() if not v]
+    return missing
+
+def test_sql_injection(url):
+    payloads = ["' OR '1'='1", "1' UNION SELECT NULL--", "admin'--"]
+    for payload in payloads:
+        test_url = f"{url}?id={payload}"
+        response = requests.get(test_url)
+        if "error" in response.text.lower() or "sql" in response.text.lower():
+            return f"Potential SQL injection: {payload}"
+    return "No SQL injection detected"</code></pre>
+
+                <div class="security-note">
+                    <strong>⚠️ Legal Reminder:</strong> Only test websites you own or have written permission to test. Unauthorized scanning is illegal.
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>Essential Resources</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h4>Learning Platforms</h4>
+                    <ul>
+                        <li><strong>TryHackMe:</strong> Interactive cybersecurity training</li>
+                        <li><strong>Hack The Box:</strong> Penetration testing labs</li>
+                        <li><strong>Cybrary:</strong> Free cybersecurity courses</li>
+                        <li><strong>OWASP:</strong> Web security resources</li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h4>Tools & Libraries</h4>
+                    <ul>
+                        <li><strong>Burp Suite:</strong> Web security testing</li>
+                        <li><strong>OWASP ZAP:</strong> Automated scanner</li>
+                        <li><strong>Requests:</strong> HTTP library for Python</li>
+                        <li><strong>BeautifulSoup:</strong> HTML parsing</li>
+                        <li><strong>sqlmap:</strong> SQL injection tool</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>Conclusion</h2>
+            <p>Web security is constantly evolving. These projects will give you hands-on experience with the most common web vulnerabilities and how to detect them.</p>
+
+            <div class="next-steps">
+                <h3>Your Next Steps:</h3>
+                <ol>
+                    <li>Set up a safe testing environment (virtual machines)</li>
+                    <li>Pick one project that interests you</li>
+                    <li>Set aside dedicated time to work on it</li>
+                    <li>Document your learning process and findings</li>
+                    <li>Share your progress with the security community</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><em>Happy hacking (ethically), and welcome to the world of cybersecurity engineering!</em> <span class="emoji">🛡️</span></p>
+            <p><strong>Author:</strong> Cybersecurity Engineering Blog</p>
+            <p><strong>Last Updated:</strong> 2024</p>
+            <div class="tags">
+                <span class="tag">#Cybersecurity</span>
+                <span class="tag">#InfoSec</span>
+                <span class="tag">#EthicalHacking</span>
+                <span class="tag">#Security</span>
+                <span class="tag">#Python</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
