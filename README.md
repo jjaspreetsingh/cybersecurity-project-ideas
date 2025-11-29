@@ -56,7 +56,7 @@ These tools are referenced in the projects. Install them to follow along and und
 ### How to Use the Projects
 1. **Choose a Category**: Begin with Fundamentals to build confidence.
 2. **Select a Project**: Match it to your interests and skill level.
-3. **Access HTML Files**: Open the file in your browser (double-click or use `open filename.html` on macOS / `xdg-open filename.html` on Linux). These pages explain everything you need.
+3. **Access HTML Files**: Open the file in your browser (double-click or use `open filename.html` on macOS / `xdg-open filename.html` on Linux). These pages explain everything you need. Alternatively, you can access the projects online at https://jjaspreetsingh.com/cybersecurity-project-ideas/.
 4. **Follow Guidance**: Read prerequisites, implement step-by-step, test in a VM, and focus on learning concepts over just finishing code.
 5. **Document Your Work**: Note challenges and solutions to reinforce learning.
 
