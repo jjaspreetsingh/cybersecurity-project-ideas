@@ -62,7 +62,7 @@ These tools are referenced in the projects. Install them to follow along and und
 
 To get the files:
 ```bash
-git clone https://github.com/yourusername/cybersecurity-project-ideas.git
+git clone https://github.com/jjaspreetsingh/cybersecurity-project-ideas.git
 cd cybersecurity-project-ideas
 # Then open any .html file in your browser
 ```
