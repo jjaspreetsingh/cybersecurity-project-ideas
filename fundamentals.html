@@ -12,10 +12,10 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Courier New', monospace;
             line-height: 1.7;
-            color: #333;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: #00ff00;
+            background: #000;
             min-height: 100vh;
             padding: 20px;
         }
@@ -23,17 +23,17 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: #111;
+            border: 1px solid #333;
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
+            background: #222;
+            color: #00ff00;
             padding: 60px 40px;
             text-align: center;
+            border-bottom: 1px solid #333;
         }
 
         .header h1 {
@@ -54,23 +54,23 @@
         }
 
         h2 {
-            color: #f5576c;
+            color: #00ff00;
             font-size: 2em;
             margin-top: 50px;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 3px solid #f5576c;
+            border-bottom: 1px solid #00ff00;
         }
 
         h3 {
-            color: #d63384;
+            color: #00ff00;
             font-size: 1.5em;
             margin-top: 30px;
             margin-bottom: 15px;
         }
 
         h4 {
-            color: #555;
+            color: #00ff00;
             font-size: 1.2em;
             margin-top: 25px;
             margin-bottom: 12px;
@@ -80,7 +80,7 @@
         p {
             margin-bottom: 20px;
             font-size: 1.05em;
-            color: #444;
+            color: #ccc;
         }
 
         ul, ol {
@@ -91,21 +91,19 @@
         li {
             margin-bottom: 10px;
             font-size: 1.05em;
-            color: #444;
+            color: #ccc;
         }
 
         strong {
-            color: #f5576c;
+            color: #00ff00;
             font-weight: 600;
         }
 
         .project-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-left: 5px solid #f5576c;
+            background: #222;
+            border: 1px solid #333;
             padding: 25px;
             margin: 30px 0;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .project-header {
@@ -118,98 +116,95 @@
 
         .difficulty {
             font-size: 1.1em;
-            color: #d63384;
+            color: #00ff00;
         }
 
         .time {
-            background: #f5576c;
-            color: white;
+            background: #333;
+            color: #00ff00;
             padding: 5px 15px;
-            border-radius: 20px;
+            border-radius: 0;
             font-size: 0.9em;
             font-weight: 600;
         }
 
         .skills {
-            background: #d63384;
-            color: white;
+            background: #333;
+            color: #00ff00;
             padding: 5px 15px;
-            border-radius: 20px;
+            border-radius: 0;
             font-size: 0.9em;
             font-weight: 600;
         }
 
         code {
-            background: #f4f4f4;
+            background: #333;
             padding: 2px 8px;
-            border-radius: 4px;
+            border-radius: 0;
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
-            color: #e83e8c;
+            color: #00ff00;
         }
 
         pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
+            background: #000;
+            color: #00ff00;
             padding: 20px;
-            border-radius: 10px;
+            border: 1px solid #333;
             overflow-x: auto;
             margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         pre code {
             background: none;
             padding: 0;
-            color: #f8f8f2;
+            color: #00ff00;
             font-size: 0.95em;
         }
 
         .warning {
-            background: #fff3cd;
-            border-left: 5px solid #ffc107;
+            background: #222;
+            border-left: 5px solid #ff0;
             padding: 15px;
             margin: 20px 0;
-            border-radius: 5px;
         }
 
         .warning strong {
-            color: #856404;
+            color: #ff0;
         }
 
         .security-note {
-            background: #d1ecf1;
-            border-left: 5px solid #0c5460;
+            background: #222;
+            border-left: 5px solid #00f;
             padding: 15px;
             margin: 20px 0;
-            border-radius: 5px;
         }
 
         .security-note strong {
-            color: #0c5460;
+            color: #00f;
         }
 
         .tips-box {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            background: #222;
             padding: 25px;
-            border-radius: 10px;
+            border: 1px solid #333;
             margin: 30px 0;
         }
 
         .pitfalls-box {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            background: #222;
             padding: 25px;
-            border-radius: 10px;
+            border: 1px solid #333;
             margin: 30px 0;
         }
 
         .pitfalls-box .wrong {
-            color: #d32f2f;
+            color: #f00;
             font-weight: 600;
         }
 
         .pitfalls-box .right {
-            color: #388e3c;
+            color: #0f0;
             font-weight: 600;
         }
 
@@ -221,15 +216,13 @@
         }
 
         .week-card {
-            background: white;
-            border: 2px solid #f5576c;
-            border-radius: 10px;
+            background: #222;
+            border: 1px solid #333;
             padding: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
         .week-card h4 {
-            color: #f5576c;
+            color: #00ff00;
             margin-top: 0;
         }
 
@@ -241,30 +234,29 @@
         }
 
         .resource-card {
-            background: #f8f9fa;
+            background: #222;
             padding: 20px;
-            border-radius: 10px;
-            border-top: 4px solid #f5576c;
+            border: 1px solid #333;
         }
 
         .resource-card h4 {
-            color: #f5576c;
+            color: #00ff00;
             margin-top: 0;
         }
 
         hr {
             border: none;
-            height: 2px;
-            background: linear-gradient(to right, #f093fb, #f5576c);
+            height: 1px;
+            background: #333;
             margin: 40px 0;
-            border-radius: 2px;
         }
 
         .footer {
-            background: #2d2d2d;
-            color: white;
+            background: #222;
+            color: #00ff00;
             padding: 30px 40px;
             text-align: center;
+            border-top: 1px solid #333;
         }
 
         .footer p {
@@ -278,41 +270,40 @@
 
         .tag {
             display: inline-block;
-            background: #f5576c;
-            color: white;
+            background: #333;
+            color: #00ff00;
             padding: 5px 12px;
-            border-radius: 20px;
+            border-radius: 0;
             font-size: 0.85em;
             margin: 5px;
         }
 
         .takeaways {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
+            background: #222;
+            color: #00ff00;
             padding: 25px;
-            border-radius: 10px;
+            border: 1px solid #333;
             margin: 30px 0;
         }
 
         .takeaways h3 {
-            color: white;
+            color: #00ff00;
             margin-top: 0;
         }
 
         .takeaways ul {
-            color: white;
+            color: #00ff00;
         }
 
         .next-steps {
-            background: #e8f5e9;
-            border-left: 5px solid #4caf50;
+            background: #222;
+            border-left: 5px solid #0f0;
             padding: 20px;
-            border-radius: 5px;
             margin: 30px 0;
         }
 
         .next-steps ol {
-            color: #2e7d32;
+            color: #0f0;
         }
 
         @media (max-width: 768px) {
