@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Analyzer & Intrusion Detection - Cybersecurity Project</title>
+    <style>
+        /* Import professional fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        /* CSS Reset and Base Styles */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* GitHub Dark Theme Colors */
+        :root {
+            --gh-bg: #0d1117;
+            --gh-bg-secondary: #161b22;
+            --gh-bg-tertiary: #21262d;
+            --gh-border: #30363d;
+            --gh-border-secondary: #21262d;
+            --gh-text-primary: #f0f6fc;
+            --gh-text-secondary: #c9d1d9;
+            --gh-text-muted: #8b949e;
+            --gh-accent: #58a6ff;
+            --gh-accent-hover: #79c0ff;
+            --gh-success: #56d364;
+            --gh-warning: #d29922;
+            --gh-danger: #f85149;
+            --gh-code-bg: #161b22;
+            --gh-code-border: #30363d;
+        }
+        
+        /* Base Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gh-text-primary);
+            background: var(--gh-bg);
+            min-height: 100vh;
+            padding: 16px;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: 1.875rem;
+            border-bottom: 1px solid var(--gh-border);
+            padding-bottom: 8px;
+            margin-top: 48px;
+            margin-bottom: 24px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+        
+        h4 {
+            font-size: 1.25rem;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: var(--gh-text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* Links */
+        a {
+            color: var(--gh-accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        a:hover {
+            color: var(--gh-accent-hover);
+            text-decoration: underline;
+        }
+        
+        /* Lists */
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+            color: var(--gh-text-secondary);
+        }
+        
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            background: var(--gh-code-bg);
+            border: 1px solid var(--gh-code-border);
+            border-radius: 6px;
+            padding: 2px 6px;
+            color: var(--gh-text-primary);
+        }
+        
+        pre {
+            background: var(--gh-code-bg);
+            border: 1px solid var(--gh-code-border);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.45;
+        }
+        
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            background: var(--gh-bg-secondary);
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 48px 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--gh-border);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--gh-text-primary);
+        }
+        
+        .header .subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            font-weight: 400;
+            color: var(--gh-text-secondary);
+        }
+        
+        /* Content */
+        .content {
+            padding: 48px 32px;
+        }
+        
+        /* Project Cards */
+        .project-card {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            transition: all 0.2s ease;
+        }
+        
+        .project-card:hover {
+            border-color: var(--gh-accent);
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
+        }
+        
+        .project-card h3 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        .project-card p {
+            color: var(--gh-text-secondary);
+            margin-bottom: 16px;
+        }
+        
+        .project-card ul {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        
+        .project-card li {
+            color: var(--gh-text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* Project Header */
+        .project-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        
+        .difficulty {
+            font-size: 0.875rem;
+            color: var(--gh-text-secondary);
+            font-weight: 500;
+        }
+        
+        .time {
+            background: var(--gh-bg);
+            color: var(--gh-text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--gh-border);
+        }
+        
+        .skills {
+            background: var(--gh-bg);
+            color: var(--gh-text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--gh-border);
+        }
+        
+        /* Special Components */
+        .warning {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-warning);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+        
+        .warning strong {
+            color: var(--gh-warning);
+        }
+        
+        .security-note {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-accent);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+        
+        .security-note strong {
+            color: var(--gh-accent);
+        }
+        
+        .tips-box {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .pitfalls-box {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .pitfalls-box .wrong {
+            color: var(--gh-danger);
+            font-weight: 600;
+        }
+        
+        .pitfalls-box .right {
+            color: var(--gh-success);
+            font-weight: 600;
+        }
+        
+        .learning-path {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .week-card {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .week-card h4 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .resource-card {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+        }
+        
+        .resource-card h4 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--gh-border);
+            margin: 32px 0;
+        }
+        
+        .footer {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 32px;
+            text-align: center;
+            border-top: 1px solid var(--gh-border);
+        }
+        
+        .footer p {
+            color: var(--gh-text-secondary);
+            margin: 4px 0;
+            font-size: 0.875rem;
+        }
+        
+        .tags {
+            margin-top: 16px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: var(--gh-bg);
+            color: var(--gh-accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 4px;
+            border: 1px solid var(--gh-border);
+            transition: all 0.2s ease;
+        }
+        
+        .tag:hover {
+            background: var(--gh-accent);
+            color: var(--gh-bg);
+        }
+        
+        .takeaways {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .takeaways h3 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        .takeaways ul {
+            color: var(--gh-text-primary);
+        }
+        
+        .next-steps {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-success);
+            padding: 16px;
+            margin: 24px 0;
+            border-radius: 6px;
+        }
+        
+        .next-steps ol {
+            color: var(--gh-success);
+        }
+        
+        /* Step Boxes */
+        .step-box {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            padding: 20px;
+            margin: 16px 0;
+            position: relative;
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--gh-accent);
+            color: var(--gh-bg);
+            padding: 4px 8px;
+            font-weight: bold;
+            border-radius: 50%;
+            font-size: 0.75rem;
+        }
+        
+        .resource-link {
+            color: var(--gh-accent);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--gh-accent);
+        }
+        
+        .resource-link:hover {
+            border-bottom: 1px solid var(--gh-accent);
+        }
+        
+        /* Emoji */
+        .emoji {
+            font-size: 1.25rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+                font-size: 14px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .header {
+                padding: 32px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 32px 20px;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                margin-top: 32px;
+            }
+            
+            h3 {
+                font-size: 1.25rem;
+                margin-top: 24px;
+            }
+            
+            .project-card {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .footer {
+                padding: 24px 20px;
+            }
+            
+            pre {
+                font-size: 0.75rem;
+                padding: 12px;
+            }
+            
+            ul, ol {
+                margin-left: 20px;
+            }
+            
+            .step-box {
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .project-card {
+                padding: 16px;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+            
+            h3 {
+                font-size: 1.125rem;
+            }
+        }
+        
+        /* Focus and Accessibility */
+        a:focus,
+        button:focus {
+            outline: 2px solid var(--gh-accent);
+            outline-offset: 2px;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gh-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gh-border);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gh-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Log Analyzer & Intrusion Detection</h1>
+            <p class="subtitle">Build a system to analyze system logs and detect security threats in real-time</p>
+        </div>
+
+        <div class="content">
+            <div class="project-header">
+                <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐☆☆</span>
+                <span class="time"><strong>Time:</strong> 5-6 hours</span>
+                <span class="skills"><strong>Skills:</strong> Log analysis, pattern recognition, threat detection</span>
+            </div>
+
+            <h2>Project Overview</h2>
+            <p>In this project, you'll build a comprehensive log analysis and intrusion detection system that monitors system logs in real-time, identifies suspicious patterns, and alerts administrators to potential security threats. This is a critical component of modern security operations centers (SOC).</p>
+
+            <h2>Why This Project Matters</h2>
+            <p>System logs contain valuable information about system activities and potential security incidents. According to security reports, many breaches go undetected for months, and log analysis is often the key to identifying compromise indicators. By building this tool, you'll learn:</p>
+            <ul>
+                <li>Log file parsing and structured data extraction</li>
+                <li>Security event correlation and analysis</li>
+                <li>Real-time monitoring and alerting systems</li>
+                <li>Common attack patterns and indicators of compromise</li>
+                <li>Incident response and forensic analysis</li>
+            </ul>
+
+            <h2>What You'll Build</h2>
+            <p>A comprehensive log analysis and intrusion detection system that:</p>
+            <ul>
+                <li>Parses multiple log formats (syslog, auth.log, Apache, etc.)</li>
+                <li>Detects authentication failures and brute force attempts</li>
+                <li>Identifies suspicious network connections and unusual activities</li>
+                <li>Correlates events across multiple log sources</li>
+                <li>Generates real-time alerts and security reports</li>
+                <li>Provides both command-line and web-based monitoring interfaces</li>
+                <li>Supports customizable detection rules and thresholds</li>
+            </ul>
+
+            <h2>Prerequisites</h2>
+            <p>Before starting, make sure you have:</p>
+            <ul>
+                <li>Python 3.8 or higher installed</li>
+                <li>Access to system logs (or sample log files)</li>
+                <li>Understanding of regular expressions</li>
+                <li>Basic knowledge of common attack patterns</li>
+                <li>A test environment with logging enabled</li>
+            </ul>
+
+            <h2>Step-by-Step Implementation</h2>
+
+            <div class="step-box">
+                <div class="step-number">1</div>
+                <h3>Project Architecture and Setup</h3>
+                <p>Design the system architecture and set up the project structure.</p>
+                <pre><code># Create project directory
+mkdir log-analyzer-ids
+cd log-analyzer-ids
+
+# Create main modules
+touch log_parser.py
+touch intrusion_detector.py
+touch alert_system.py
+touch correlation_engine.py
+touch web_monitor.py
+touch requirements.txt
+
+# Create configuration and data directories
+mkdir config logs reports</code></pre>
+                <p><strong>Architecture components:</strong></p>
+                <ul>
+                    <li><code>log_parser.py</code>: Handles parsing of different log formats</li>
+                    <li><code>intrusion_detector.py</code>: Implements detection algorithms</li>
+                    <li><code>correlation_engine.py</code>: Correlates events across logs</li>
+                    <li><code>alert_system.py</code>: Manages alerts and notifications</li>
+                    <li><code>web_monitor.py</code>: Provides web-based monitoring interface</li>
+                </ul>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">2</div>
+                <h3>Install Dependencies</h3>
+                <p>Set up the required libraries for log processing, pattern matching, and web interface.</p>
+                <pre><code># requirements.txt
+regex>=2021.8.0        # Advanced regular expressions
+flask>=2.0.0          # Web framework
+sqlite3               # Database storage
+apscheduler>=3.6.0    # Task scheduling
+python-dateutil>=2.8.0 # Date parsing
+requests>=2.25.0      # HTTP requests for external APIs
+colorama>=0.4.4       # Colored terminal output</code></pre>
+                <pre><code>pip install -r requirements.txt</code></pre>
+                <p><strong>Key libraries:</strong></p>
+                <ul>
+                    <li><code>regex</code>: Advanced pattern matching for log parsing</li>
+                    <li><code>Flask</code>: Web interface for real-time monitoring</li>
+                    <li><code>APScheduler</code>: Scheduled log analysis and reporting</li>
+                    <li><code>colorama</code>: Enhanced terminal output for alerts</li>
+                </ul>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">3</div>
+                <h3>Build the Log Parser</h3>
+                <p>Create a flexible log parsing system that handles multiple log formats.</p>
+                <pre><code>import re
+import regex
+from datetime import datetime
+from dateutil import parser as date_parser
+from collections import defaultdict
+import json
+
+class LogParser:
+    """Parses various log formats and extracts structured data"""
+
+    def __init__(self):
+        self.parsers = {
+            'syslog': self._parse_syslog,
+            'auth': self._parse_auth_log,
+            'apache': self._parse_apache_log,
+            'nginx': self._parse_nginx_log,
+            'firewall': self._parse_firewall_log,
+            'custom': self._parse_custom_log
+        }
+
+        # Common patterns
+        self.patterns = {
+            'ip_address': r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b',
+            'timestamp': r'\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}',
+            'username': r'\b\w{3,20}\b',
+            'port': r'\b\d{1,5}\b'
+        }
+
+    def parse_log_file(self, filepath, log_type='auto'):
+        """Parse a log file and return structured events"""
+        events = []
+
+        try:
+            with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    if not line:
+                        continue
+
+                    # Auto-detect log type if not specified
+                    if log_type == 'auto':
+                        detected_type = self._detect_log_type(line)
+                    else:
+                        detected_type = log_type
+
+                    # Parse the line
+                    if detected_type in self.parsers:
+                        event = self.parsers[detected_type](line)
+                        if event:
+                            event['line_number'] = line_num
+                            event['raw_line'] = line
+                            event['log_type'] = detected_type
+                            events.append(event)
+
+        except FileNotFoundError:
+            print(f"Log file not found: {filepath}")
+        except PermissionError:
+            print(f"Permission denied reading: {filepath}")
+        except Exception as e:
+            print(f"Error parsing log file: {e}")
+
+        return events
+
+    def _detect_log_type(self, line):
+        """Auto-detect log type based on line content"""
+        line = line.lower()
+
+        if 'sshd' in line or 'authentication failure' in line:
+            return 'auth'
+        elif 'apache' in line or '"get ' in line or '"post ' in line:
+            return 'apache'
+        elif 'nginx' in line:
+            return 'nginx'
+        elif 'iptables' in line or 'ufw' in line:
+            return 'firewall'
+        else:
+            return 'syslog'
+
+    def _parse_syslog(self, line):
+        """Parse standard syslog format"""
+        # Example: Jan  1 12:00:00 hostname process[pid]: message
+        pattern = r'^(\w+\s+\d+\s+\d{2}:\d{2}:\d{2})\s+(\w+)\s+(.+)$'
+        match = re.match(pattern, line)
+
+        if match:
+            timestamp_str, hostname, message = match.groups()
+            try:
+                timestamp = date_parser.parse(timestamp_str)
+            except:
+                timestamp = datetime.now()
+
+            return {
+                'timestamp': timestamp.isoformat(),
+                'hostname': hostname,
+                'message': message,
+                'severity': self._extract_severity(message),
+                'facility': 'syslog'
+            }
+
+        return None
+
+    def _parse_auth_log(self, line):
+        """Parse authentication log (sshd, sudo, etc.)"""
+        event = self._parse_syslog(line)
+        if not event:
+            return None
+
+        message = event['message'].lower()
+
+        # Detect authentication events
+        if 'failed password' in message or 'authentication failure' in message:
+            event['event_type'] = 'auth_failure'
+            event['username'] = self._extract_field(message, r'for (\w+)')
+            event['source_ip'] = self._extract_field(message, self.patterns['ip_address'])
+            event['severity'] = 'warning'
+        elif 'accepted password' in message or 'session opened' in message:
+            event['event_type'] = 'auth_success'
+            event['username'] = self._extract_field(message, r'for (\w+)')
+            event['source_ip'] = self._extract_field(message, self.patterns['ip_address'])
+            event['severity'] = 'info'
+        elif 'sudo' in message:
+            event['event_type'] = 'privilege_escalation'
+            event['username'] = self._extract_field(message, r'user (\w+)')
+            event['command'] = self._extract_field(message, r'command: (.+)$')
+            event['severity'] = 'info'
+
+        return event
+
+    def _parse_apache_log(self, line):
+        """Parse Apache access log"""
+        # Common Apache log format
+        pattern = r'^(\S+)\s+(\S+)\s+(\S+)\s+\[([^\]]+)\]\s+"([^"]+)"\s+(\d+)\s+(\d+)(?:\s+"([^"]+)")?(?:\s+"([^"]+)")?'
+        match = re.match(pattern, line)
+
+        if match:
+            ip, ident, user, timestamp_str, request, status, size, referer, user_agent = match.groups()
+
+            try:
+                # Parse Apache timestamp format
+                timestamp = datetime.strptime(timestamp_str, '%d/%b/%Y:%H:%M:%S %z')
+            except:
+                timestamp = datetime.now()
+
+            # Parse HTTP request
+            request_parts = request.split()
+            method = request_parts[0] if len(request_parts) > 0 else 'UNKNOWN'
+            url = request_parts[1] if len(request_parts) > 1 else '/'
+            protocol = request_parts[2] if len(request_parts) > 2 else 'HTTP/1.0'
+
+            return {
+                'timestamp': timestamp.isoformat(),
+                'source_ip': ip,
+                'method': method,
+                'url': url,
+                'protocol': protocol,
+                'status_code': int(status),
+                'response_size': int(size) if size != '-' else 0,
+                'user_agent': user_agent or '',
+                'referer': referer or '',
+                'event_type': 'http_request',
+                'severity': 'info'
+            }
+
+        return None
+
+    def _parse_nginx_log(self, line):
+        """Parse Nginx access log (similar to Apache)"""
+        return self._parse_apache_log(line)  # Often compatible
+
+    def _parse_firewall_log(self, line):
+        """Parse firewall logs (iptables, ufw)"""
+        event = self._parse_syslog(line)
+        if not event:
+            return None
+
+        message = event['message'].lower()
+
+        if 'drop' in message or 'deny' in message:
+            event['event_type'] = 'firewall_block'
+            event['source_ip'] = self._extract_field(message, self.patterns['ip_address'])
+            event['protocol'] = self._extract_field(message, r'proto (\w+)')
+            event['severity'] = 'warning'
+        elif 'accept' in message or 'allow' in message:
+            event['event_type'] = 'firewall_allow'
+            event['source_ip'] = self._extract_field(message, self.patterns['ip_address'])
+            event['protocol'] = self._extract_field(message, r'proto (\w+)')
+            event['severity'] = 'info'
+
+        return event
+
+    def _parse_custom_log(self, line):
+        """Parse custom log format"""
+        # Basic custom parsing - can be extended
+        return {
+            'timestamp': datetime.now().isoformat(),
+            'message': line,
+            'event_type': 'custom',
+            'severity': 'info'
+        }
+
+    def _extract_severity(self, message):
+        """Extract severity level from message"""
+        message = message.lower()
+        if any(word in message for word in ['error', 'fail', 'denied', 'block']):
+            return 'error'
+        elif any(word in message for word in ['warn', 'warning', 'suspicious']):
+            return 'warning'
+        else:
+            return 'info'
+
+    def _extract_field(self, text, pattern):
+        """Extract field using regex pattern"""
+        match = re.search(pattern, text)
+        return match.group(1) if match else None</code></pre>
+                <p><strong>Log parsing:</strong> Handles multiple log formats with structured data extraction, making it easy to analyze different types of system logs.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">4</div>
+                <h3>Implement Intrusion Detection</h3>
+                <p>Create detection algorithms for common security threats and attack patterns.</p>
+                <pre><code>from collections import defaultdict, Counter
+import time
+from datetime import datetime, timedelta
+
+class IntrusionDetector:
+    """Detects security threats and suspicious activities"""
+
+    def __init__(self):
+        self.events = []
+        self.alerts = []
+        self.baseline_stats = defaultdict(int)
+
+        # Detection thresholds
+        self.thresholds = {
+            'failed_auth_attempts': 5,  # per IP per hour
+            'brute_force_window': 3600,  # 1 hour
+            'suspicious_ports': {22, 23, 3389, 5900},  # Common attack targets
+            'unusual_hours': {0, 1, 2, 3, 4, 5},  # Hours considered suspicious
+        }
+
+    def analyze_events(self, events):
+        """Analyze events for security threats"""
+        self.events.extend(events)
+
+        # Run detection algorithms
+        self._detect_brute_force()
+        self._detect_port_scanning()
+        self._detect_unusual_activity()
+        self._detect_suspicious_connections()
+        self._detect_privilege_escalation()
+
+        return self.alerts
+
+    def _detect_brute_force(self):
+        """Detect brute force authentication attempts"""
+        # Group failed auth events by IP and time window
+        failed_auths = defaultdict(list)
+
+        for event in self.events:
+            if (event.get('event_type') == 'auth_failure' and
+                event.get('source_ip')):
+
+                ip = event['source_ip']
+                timestamp = event.get('timestamp')
+
+                if timestamp:
+                    try:
+                        event_time = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+                        failed_auths[ip].append(event_time)
+                    except:
+                        continue
+
+        # Check for brute force patterns
+        current_time = datetime.now()
+
+        for ip, timestamps in failed_auths.items():
+            # Count attempts in the last hour
+            recent_attempts = [
+                ts for ts in timestamps
+                if (current_time - ts).total_seconds() < self.thresholds['brute_force_window']
+            ]
+
+            if len(recent_attempts) >= self.thresholds['failed_auth_attempts']:
+                self._create_alert(
+                    'brute_force',
+                    'high',
+                    f'Brute force attack detected from {ip}: {len(recent_attempts)} failed attempts',
+                    {'ip': ip, 'attempts': len(recent_attempts), 'time_window': '1 hour'}
+                )
+
+    def _detect_port_scanning(self):
+        """Detect port scanning activity"""
+        port_access = defaultdict(set)
+
+        for event in self.events:
+            if event.get('event_type') in ['firewall_block', 'auth_failure']:
+                ip = event.get('source_ip')
+                port = event.get('port') or event.get('dst_port')
+
+                if ip and port:
+                    port_access[ip].add(port)
+
+        # Check for port scanning patterns
+        for ip, ports in port_access.items():
+            if len(ports) > 10:  # Accessing many different ports
+                self._create_alert(
+                    'port_scan',
+                    'medium',
+                    f'Port scanning detected from {ip}: accessed {len(ports)} different ports',
+                    {'ip': ip, 'ports_accessed': sorted(ports)}
+                )
+
+    def _detect_unusual_activity(self):
+        """Detect unusual timing or behavior"""
+        for event in self.events:
+            timestamp = event.get('timestamp')
+
+            if timestamp:
+                try:
+                    event_time = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+                    hour = event_time.hour
+
+                    # Check for unusual hours
+                    if hour in self.thresholds['unusual_hours']:
+                        if event.get('event_type') in ['auth_success', 'auth_failure']:
+                            self._create_alert(
+                                'unusual_timing',
+                                'low',
+                                f'Unusual login attempt at hour {hour} from {event.get("source_ip", "unknown")}',
+                                {'hour': hour, 'ip': event.get('source_ip'), 'event_type': event.get('event_type')}
+                            )
+                except:
+                    continue
+
+    def _detect_suspicious_connections(self):
+        """Detect suspicious network connections"""
+        for event in self.events:
+            if event.get('event_type') == 'firewall_allow':
+                source_ip = event.get('source_ip')
+                port = event.get('dst_port')
+
+                if port and int(port) in self.thresholds['suspicious_ports']:
+                    # Check if connection is from unusual location/time
+                    self._create_alert(
+                        'suspicious_connection',
+                        'medium',
+                        f'Suspicious connection to port {port} from {source_ip}',
+                        {'ip': source_ip, 'port': port}
+                    )
+
+    def _detect_privilege_escalation(self):
+        """Detect privilege escalation attempts"""
+        for event in self.events:
+            if event.get('event_type') == 'privilege_escalation':
+                username = event.get('username', 'unknown')
+                command = event.get('command', '')
+
+                # Check for suspicious commands
+                suspicious_commands = ['sudo su', 'su root', 'chmod 777', 'rm -rf']
+
+                if any(cmd in command for cmd in suspicious_commands):
+                    self._create_alert(
+                        'privilege_escalation',
+                        'high',
+                        f'Privilege escalation attempt by {username}: {command}',
+                        {'username': username, 'command': command}
+                    )
+
+    def _create_alert(self, alert_type, severity, description, details):
+        """Create a security alert"""
+        alert = {
+            'id': f"{alert_type}_{int(time.time())}",
+            'type': alert_type,
+            'severity': severity,
+            'description': description,
+            'details': details,
+            'timestamp': datetime.now().isoformat(),
+            'status': 'new'
+        }
+
+        self.alerts.append(alert)
+
+        # Print alert to console
+        severity_icon = {'high': '🔴', 'medium': '🟡', 'low': '🟢'}.get(severity, '⚪')
+        print(f"{severity_icon} ALERT: {description}")
+
+    def get_alerts(self, severity=None, status=None):
+        """Get filtered alerts"""
+        filtered_alerts = self.alerts
+
+        if severity:
+            filtered_alerts = [a for a in filtered_alerts if a['severity'] == severity]
+
+        if status:
+            filtered_alerts = [a for a in filtered_alerts if a['status'] == status]
+
+        return filtered_alerts
+
+    def update_baseline(self, events):
+        """Update baseline statistics for anomaly detection"""
+        for event in events:
+            event_type = event.get('event_type', 'unknown')
+            source_ip = event.get('source_ip', 'unknown')
+
+            self.baseline_stats[f"{event_type}_{source_ip}"] += 1
+
+    def get_statistics(self):
+        """Get detection statistics"""
+        return {
+            'total_events': len(self.events),
+            'total_alerts': len(self.alerts),
+            'alerts_by_severity': Counter(a['severity'] for a in self.alerts),
+            'alerts_by_type': Counter(a['type'] for a in self.alerts),
+            'baseline_stats': dict(self.baseline_stats)
+        }</code></pre>
+                <p><strong>Intrusion detection:</strong> Implements rule-based detection for common attack patterns like brute force, port scanning, and privilege escalation.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">5</div>
+                <h3>Build the Correlation Engine</h3>
+                <p>Create a system to correlate events across multiple log sources for better threat detection.</p>
+                <pre><code>from collections import defaultdict
+import time
+from datetime import datetime, timedelta
+
+class CorrelationEngine:
+    """Correlates events across multiple log sources"""
+
+    def __init__(self):
+        self.event_sequences = defaultdict(list)
+        self.correlation_rules = self._load_correlation_rules()
+
+    def _load_correlation_rules(self):
+        """Load predefined correlation rules"""
+        return [
+            {
+                'name': 'brute_force_followed_by_success',
+                'description': 'Multiple failed logins followed by successful login',
+                'events': ['auth_failure', 'auth_success'],
+                'time_window': 3600,  # 1 hour
+                'severity': 'high'
+            },
+            {
+                'name': 'recon_to_attack',
+                'description': 'Port scanning followed by exploitation attempt',
+                'events': ['port_scan', 'suspicious_connection'],
+                'time_window': 1800,  # 30 minutes
+                'severity': 'high'
+            },
+            {
+                'name': 'lateral_movement',
+                'description': 'Successful login followed by privilege escalation',
+                'events': ['auth_success', 'privilege_escalation'],
+                'time_window': 3600,  # 1 hour
+                'severity': 'medium'
+            }
+        ]
+
+    def correlate_events(self, new_events):
+        """Correlate new events with existing event sequences"""
+        correlations = []
+
+        for event in new_events:
+            event_type = event.get('event_type')
+            source_ip = event.get('source_ip')
+            timestamp = event.get('timestamp')
+
+            if not all([event_type, source_ip, timestamp]):
+                continue
+
+            # Add event to sequence for this IP
+            key = source_ip
+            self.event_sequences[key].append({
+                'event': event,
+                'timestamp': timestamp
+            })
+
+            # Clean old events (keep last 24 hours)
+            self._cleanup_old_events(key)
+
+            # Check correlation rules
+            rule_matches = self._check_correlation_rules(key)
+            correlations.extend(rule_matches)
+
+        return correlations
+
+    def _check_correlation_rules(self, key):
+        """Check if event sequence matches any correlation rules"""
+        correlations = []
+        events = self.event_sequences[key]
+
+        for rule in self.correlation_rules:
+            matches = self._check_rule_match(events, rule)
+            if matches:
+                correlation = {
+                    'rule_name': rule['name'],
+                    'description': rule['description'],
+                    'severity': rule['severity'],
+                    'source_ip': key,
+                    'matched_events': matches,
+                    'timestamp': datetime.now().isoformat()
+                }
+                correlations.append(correlation)
+
+        return correlations
+
+    def _check_rule_match(self, events, rule):
+        """Check if events match a correlation rule"""
+        required_events = rule['events']
+        time_window = rule['time_window']
+
+        if len(events) < len(required_events):
+            return None
+
+        # Look for event sequence within time window
+        matches = []
+
+        # Sort events by timestamp
+        sorted_events = sorted(events, key=lambda x: x['timestamp'])
+
+        for i in range(len(sorted_events) - len(required_events) + 1):
+            sequence = sorted_events[i:i + len(required_events)]
+
+            # Check if events match the required sequence
+            sequence_types = [e['event'].get('event_type') for e in sequence]
+
+            if sequence_types == required_events:
+                # Check time window
+                first_time = datetime.fromisoformat(sequence[0]['timestamp'].replace('Z', '+00:00'))
+                last_time = datetime.fromisoformat(sequence[-1]['timestamp'].replace('Z', '+00:00'))
+
+                if (last_time - first_time).total_seconds() <= time_window:
+                    matches.extend([e['event'] for e in sequence])
+                    break
+
+        return matches if matches else None
+
+    def _cleanup_old_events(self, key, max_age_hours=24):
+        """Remove events older than specified hours"""
+        cutoff_time = datetime.now() - timedelta(hours=max_age_hours)
+        events = self.event_sequences[key]
+
+        # Filter out old events
+        filtered_events = []
+        for event_data in events:
+            try:
+                event_time = datetime.fromisoformat(event_data['timestamp'].replace('Z', '+00:00'))
+                if event_time > cutoff_time:
+                    filtered_events.append(event_data)
+            except:
+                continue
+
+        self.event_sequences[key] = filtered_events
+
+    def get_correlation_statistics(self):
+        """Get correlation engine statistics"""
+        total_sequences = len(self.event_sequences)
+        total_events = sum(len(events) for events in self.event_sequences.values())
+
+        return {
+            'total_sequences': total_sequences,
+            'total_events': total_events,
+            'avg_events_per_sequence': total_events / total_sequences if total_sequences > 0 else 0,
+            'active_sequences': sum(1 for events in self.event_sequences.values() if events)
+        }</code></pre>
+                <p><strong>Event correlation:</strong> Identifies attack patterns that span multiple events, such as reconnaissance followed by exploitation.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">6</div>
+                <h3>Create the Main Monitoring System</h3>
+                <p>Build the main application that ties all components together.</p>
+                <pre><code>#!/usr/bin/env python3
+"""
+Log Analyzer & Intrusion Detection System
+Real-time log monitoring and threat detection
+"""
+
+import argparse
+import time
+import os
+import sys
+from pathlib import Path
+from apscheduler.schedulers.background import BackgroundScheduler
+from flask import Flask, render_template_string, jsonify
+
+from log_parser import LogParser
+from intrusion_detector import IntrusionDetector
+from correlation_engine import CorrelationEngine
+
+class LogAnalyzerIDS:
+    """Main IDS application"""
+
+    def __init__(self):
+        self.log_parser = LogParser()
+        self.detector = IntrusionDetector()
+        self.correlator = CorrelationEngine()
+        self.scheduler = BackgroundScheduler()
+        self.is_monitoring = False
+        self.monitored_files = []
+        self.web_app = None
+
+    def add_log_file(self, filepath, log_type='auto'):
+        """Add a log file to monitor"""
+        if os.path.exists(filepath):
+            self.monitored_files.append({
+                'path': filepath,
+                'type': log_type,
+                'last_modified': os.path.getmtime(filepath),
+                'last_position': 0
+            })
+            print(f"Added log file: {filepath}")
+        else:
+            print(f"Log file not found: {filepath}")
+
+    def start_monitoring(self, interval=30):
+        """Start real-time log monitoring"""
+        self.is_monitoring = True
+
+        # Schedule periodic analysis
+        self.scheduler.add_job(
+            self._analyze_logs,
+            'interval',
+            seconds=interval,
+            id='log_analysis'
+        )
+
+        self.scheduler.start()
+        print(f"Started monitoring {len(self.monitored_files)} log files (interval: {interval}s)")
+
+        try:
+            while self.is_monitoring:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            self.stop_monitoring()
+
+    def stop_monitoring(self):
+        """Stop log monitoring"""
+        self.is_monitoring = False
+        self.scheduler.shutdown()
+        print("Stopped monitoring")
+
+    def _analyze_logs(self):
+        """Analyze all monitored log files"""
+        new_events = []
+
+        for log_file in self.monitored_files:
+            filepath = log_file['path']
+
+            # Check if file has been modified
+            try:
+                current_mtime = os.path.getmtime(filepath)
+                if current_mtime <= log_file['last_modified']:
+                    continue  # No changes
+
+                log_file['last_modified'] = current_mtime
+
+                # Read new content
+                with open(filepath, 'r') as f:
+                    f.seek(log_file['last_position'])
+                    new_lines = f.readlines()
+                    log_file['last_position'] = f.tell()
+
+                # Parse new lines
+                for line in new_lines:
+                    line = line.strip()
+                    if line:
+                        events = self.log_parser.parse_log_file_content(line, log_file['type'])
+                        new_events.extend(events)
+
+            except Exception as e:
+                print(f"Error analyzing {filepath}: {e}")
+
+        if new_events:
+            # Run intrusion detection
+            alerts = self.detector.analyze_events(new_events)
+
+            # Run correlation analysis
+            correlations = self.correlator.correlate_events(new_events)
+
+            # Update baseline
+            self.detector.update_baseline(new_events)
+
+            # Report findings
+            if alerts or correlations:
+                print(f"\n--- Analysis Results ({len(new_events)} new events) ---")
+                if alerts:
+                    print(f"🚨 {len(alerts)} alerts generated")
+                if correlations:
+                    print(f"🔗 {len(correlations)} correlations found")
+
+    def parse_log_file_content(self, content, log_type):
+        """Parse log content (helper for single lines)"""
+        # This would need to be implemented in LogParser
+        # For now, return empty list
+        return []
+
+    def generate_report(self, output_file=None):
+        """Generate analysis report"""
+        stats = {
+            'detector_stats': self.detector.get_statistics(),
+            'correlation_stats': self.correlator.get_correlation_statistics(),
+            'monitored_files': len(self.monitored_files),
+            'alerts': self.detector.get_alerts(),
+            'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+        }
+
+        if output_file:
+            import json
+            with open(output_file, 'w') as f:
+                json.dump(stats, f, indent=2, default=str)
+            print(f"Report saved to: {output_file}")
+
+        return stats
+
+    def start_web_interface(self, host='localhost', port=8080):
+        """Start web interface for monitoring"""
+        self.web_app = Flask(__name__)
+
+        @self.web_app.route('/')
+        def dashboard():
+            stats = self.generate_report()
+            alerts = stats['alerts'][-10:]  # Last 10 alerts
+
+            html = f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Log Analyzer IDS - Dashboard</title>
+    <style>
+        /* Import professional fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        /* CSS Reset and Base Styles */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* GitHub Dark Theme Colors */
+        :root {
+            --gh-bg: #0d1117;
+            --gh-bg-secondary: #161b22;
+            --gh-bg-tertiary: #21262d;
+            --gh-border: #30363d;
+            --gh-border-secondary: #21262d;
+            --gh-text-primary: #f0f6fc;
+            --gh-text-secondary: #c9d1d9;
+            --gh-text-muted: #8b949e;
+            --gh-accent: #58a6ff;
+            --gh-accent-hover: #79c0ff;
+            --gh-success: #56d364;
+            --gh-warning: #d29922;
+            --gh-danger: #f85149;
+            --gh-code-bg: #161b22;
+            --gh-code-border: #30363d;
+        }
+        
+        /* Base Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gh-text-primary);
+            background: var(--gh-bg);
+            min-height: 100vh;
+            padding: 16px;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: 1.875rem;
+            border-bottom: 1px solid var(--gh-border);
+            padding-bottom: 8px;
+            margin-top: 48px;
+            margin-bottom: 24px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+        
+        h4 {
+            font-size: 1.25rem;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: var(--gh-text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* Links */
+        a {
+            color: var(--gh-accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        a:hover {
+            color: var(--gh-accent-hover);
+            text-decoration: underline;
+        }
+        
+        /* Lists */
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+            color: var(--gh-text-secondary);
+        }
+        
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            background: var(--gh-code-bg);
+            border: 1px solid var(--gh-code-border);
+            border-radius: 6px;
+            padding: 2px 6px;
+            color: var(--gh-text-primary);
+        }
+        
+        pre {
+            background: var(--gh-code-bg);
+            border: 1px solid var(--gh-code-border);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.45;
+        }
+        
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            background: var(--gh-bg-secondary);
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 48px 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--gh-border);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--gh-text-primary);
+        }
+        
+        .header .subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            font-weight: 400;
+            color: var(--gh-text-secondary);
+        }
+        
+        /* Content */
+        .content {
+            padding: 48px 32px;
+        }
+        
+        /* Project Cards */
+        .project-card {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            transition: all 0.2s ease;
+        }
+        
+        .project-card:hover {
+            border-color: var(--gh-accent);
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
+        }
+        
+        .project-card h3 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        .project-card p {
+            color: var(--gh-text-secondary);
+            margin-bottom: 16px;
+        }
+        
+        .project-card ul {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        
+        .project-card li {
+            color: var(--gh-text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* Project Header */
+        .project-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        
+        .difficulty {
+            font-size: 0.875rem;
+            color: var(--gh-text-secondary);
+            font-weight: 500;
+        }
+        
+        .time {
+            background: var(--gh-bg);
+            color: var(--gh-text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--gh-border);
+        }
+        
+        .skills {
+            background: var(--gh-bg);
+            color: var(--gh-text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--gh-border);
+        }
+        
+        /* Special Components */
+        .warning {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-warning);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+        
+        .warning strong {
+            color: var(--gh-warning);
+        }
+        
+        .security-note {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-accent);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+        
+        .security-note strong {
+            color: var(--gh-accent);
+        }
+        
+        .tips-box {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .pitfalls-box {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .pitfalls-box .wrong {
+            color: var(--gh-danger);
+            font-weight: 600;
+        }
+        
+        .pitfalls-box .right {
+            color: var(--gh-success);
+            font-weight: 600;
+        }
+        
+        .learning-path {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .week-card {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .week-card h4 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .resource-card {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+        }
+        
+        .resource-card h4 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--gh-border);
+            margin: 32px 0;
+        }
+        
+        .footer {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 32px;
+            text-align: center;
+            border-top: 1px solid var(--gh-border);
+        }
+        
+        .footer p {
+            color: var(--gh-text-secondary);
+            margin: 4px 0;
+            font-size: 0.875rem;
+        }
+        
+        .tags {
+            margin-top: 16px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: var(--gh-bg);
+            color: var(--gh-accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 4px;
+            border: 1px solid var(--gh-border);
+            transition: all 0.2s ease;
+        }
+        
+        .tag:hover {
+            background: var(--gh-accent);
+            color: var(--gh-bg);
+        }
+        
+        .takeaways {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .takeaways h3 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        .takeaways ul {
+            color: var(--gh-text-primary);
+        }
+        
+        .next-steps {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-success);
+            padding: 16px;
+            margin: 24px 0;
+            border-radius: 6px;
+        }
+        
+        .next-steps ol {
+            color: var(--gh-success);
+        }
+        
+        /* Step Boxes */
+        .step-box {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            padding: 20px;
+            margin: 16px 0;
+            position: relative;
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--gh-accent);
+            color: var(--gh-bg);
+            padding: 4px 8px;
+            font-weight: bold;
+            border-radius: 50%;
+            font-size: 0.75rem;
+        }
+        
+        .resource-link {
+            color: var(--gh-accent);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--gh-accent);
+        }
+        
+        .resource-link:hover {
+            border-bottom: 1px solid var(--gh-accent);
+        }
+        
+        /* Emoji */
+        .emoji {
+            font-size: 1.25rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+                font-size: 14px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .header {
+                padding: 32px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 32px 20px;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                margin-top: 32px;
+            }
+            
+            h3 {
+                font-size: 1.25rem;
+                margin-top: 24px;
+            }
+            
+            .project-card {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .footer {
+                padding: 24px 20px;
+            }
+            
+            pre {
+                font-size: 0.75rem;
+                padding: 12px;
+            }
+            
+            ul, ol {
+                margin-left: 20px;
+            }
+            
+            .step-box {
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .project-card {
+                padding: 16px;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+            
+            h3 {
+                font-size: 1.125rem;
+            }
+        }
+        
+        /* Focus and Accessibility */
+        a:focus,
+        button:focus {
+            outline: 2px solid var(--gh-accent);
+            outline-offset: 2px;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gh-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gh-border);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gh-accent);
+        }
+    </style>
+            </head>
+            <body>
+                <h1>Log Analyzer & Intrusion Detection System</h1>
+                <div class="stats">
+                    <h2>System Statistics</h2>
+                    <p>Total Events: {stats['detector_stats']['total_events']}</p>
+                    <p>Total Alerts: {stats['detector_stats']['total_alerts']}</p>
+                    <p>Monitored Files: {stats['monitored_files']}</p>
+                </div>
+
+                <h2>Recent Alerts</h2>
+                {"".join([f"<div class='alert'><strong>{a['type']}</strong>: {a['description']}</div>" for a in alerts])}
+            </body>
+            </html>
+            """
+            return html
+
+        @self.web_app.route('/api/stats')
+        def api_stats():
+            return jsonify(self.generate_report())
+
+        print(f"Starting web interface on http://{host}:{port}")
+        self.web_app.run(host=host, port=port, debug=False)
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Log Analyzer & Intrusion Detection System",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Monitor auth log
+  python log_analyzer.py -f /var/log/auth.log --type auth
+
+  # Monitor multiple files
+  python log_analyzer.py -f /var/log/syslog -f /var/log/apache2/access.log
+
+  # Generate report
+  python log_analyzer.py --report analysis.json
+
+  # Start web interface
+  python log_analyzer.py --web --port 8080
+        """
+    )
+
+    parser.add_argument('-f', '--file', action='append', dest='log_files',
+                       help='Log file to monitor (can be used multiple times)')
+    parser.add_argument('--type', default='auto',
+                       help='Log type (syslog, auth, apache, nginx, firewall, auto)')
+    parser.add_argument('-i', '--interval', type=int, default=30,
+                       help='Monitoring interval in seconds (default: 30)')
+    parser.add_argument('--report', help='Generate JSON report to file')
+    parser.add_argument('--web', action='store_true',
+                       help='Start web interface')
+    parser.add_argument('--port', type=int, default=8080,
+                       help='Web interface port (default: 8080)')
+
+    args = parser.parse_args()
+
+    if not args.log_files and not args.report and not args.web:
+        parser.print_help()
+        return
+
+    analyzer = LogAnalyzerIDS()
+
+    # Add log files
+    if args.log_files:
+        for log_file in args.log_files:
+            analyzer.add_log_file(log_file, args.type)
+
+    if args.web:
+        # Start web interface
+        analyzer.start_web_interface(port=args.port)
+    elif args.report:
+        # Generate report only
+        analyzer.generate_report(args.report)
+    else:
+        # Start monitoring
+        try:
+            analyzer.start_monitoring(interval=args.interval)
+        except KeyboardInterrupt:
+            pass
+
+if __name__ == "__main__":
+    main()</code></pre>
+                <p><strong>Main application:</strong> Orchestrates log parsing, intrusion detection, correlation, and provides both command-line and web interfaces.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">7</div>
+                <h3>Test Your Log Analyzer IDS</h3>
+                <p>Test the system with sample logs and monitor real-time activity.</p>
+                <pre><code># Create sample log files for testing
+mkdir test_logs
+echo 'Jan 15 10:30:15 server sshd[1234]: Failed password for root from 192.168.1.100 port 22' > test_logs/auth.log
+echo 'Jan 15 10:31:20 server sshd[1235]: Failed password for admin from 192.168.1.100 port 22' >> test_logs/auth.log
+
+# Test with sample logs
+python log_analyzer.py -f test_logs/auth.log --type auth --report test_report.json
+
+# Monitor system logs (requires appropriate permissions)
+python log_analyzer.py -f /var/log/auth.log --type auth
+
+# Start web interface
+python log_analyzer.py --web --port 8080</code></pre>
+                <p><strong>Testing considerations:</strong></p>
+                <ul>
+                    <li>Use sample log files first to avoid affecting production systems</li>
+                    <li>Test with different log formats to ensure parsing works</li>
+                    <li>Verify that alerts are generated for suspicious patterns</li>
+                    <li>Check that the web interface displays statistics correctly</li>
+                </ul>
+            </div>
+
+            <h2>Enhancement Ideas</h2>
+            <div class="tips-box">
+                <h3>Advanced Features to Add</h3>
+                <ul>
+                    <li><strong>Machine Learning Detection:</strong> Use ML to learn normal behavior and detect anomalies</li>
+                    <li><strong>SIEM Integration:</strong> Send alerts to Security Information and Event Management systems</li>
+                    <li><strong>Log Normalization:</strong> Standardize logs from different sources into common format</li>
+                    <li><strong>Historical Analysis:</strong> Analyze long-term trends and patterns</li>
+                    <li><strong>Custom Rules Engine:</strong> Allow users to define custom detection rules</li>
+                    <li><strong>Automated Response:</strong> Trigger automated responses to detected threats</li>
+                    <li><strong>Log Encryption:</strong> Encrypt sensitive log data at rest</li>
+                </ul>
+            </div>
+
+            <h2>Common Mistakes to Avoid</h2>
+            <div class="pitfalls-box">
+                <p><span class="wrong">❌ Ignoring log rotation</span><br>
+                <span class="right">✅ Handle log rotation and file changes gracefully</span></p>
+                <p><span class="wrong">❌ Setting overly sensitive detection thresholds</span><br>
+                <span class="right">✅ Tune thresholds based on your environment's normal activity</span></p>
+                <p><span class="wrong">❌ Not securing the IDS system itself</span><br>
+                <span class="right">✅ Protect the monitoring system from compromise</span></p>
+                <p><span class="wrong">❌ Generating too many false positives</span><br>
+                <span class="right">✅ Implement alert filtering and correlation to reduce noise</span></p>
+                <p><span class="wrong">❌ Storing sensitive log data insecurely</span><br>
+                <span class="right">✅ Implement proper data handling and privacy protections</span></p>
+            </div>
+
+            <h2>Resources & Further Reading</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h4>Official Documentation</h4>
+                    <ul>
+                        <li><a href="https://docs.python.org/3/library/re.html" class="resource-link">Python Regular Expressions</a></li>
+                        <li><a href="https://flask.palletsprojects.com/" class="resource-link">Flask Web Framework</a></li>
+                        <li><a href="https://apscheduler.readthedocs.io/" class="resource-link">APScheduler Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h4>Security Research</h4>
+                    <ul>
+                        <li><a href="https://en.wikipedia.org/wiki/Intrusion_detection_system" class="resource-link">Intrusion Detection Systems</a></li>
+                        <li><a href="https://www.sans.org/reading-room/whitepapers/logging/" class="resource-link">Log Analysis Best Practices</a></li>
+                        <li><a href="https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final" class="resource-link">NIST Security Controls</a></li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h4>Learning Resources</h4>
+                    <ul>
+                        <li><a href="https://tryhackme.com/room/introtoids" class="resource-link">TryHackMe: Intro to IDS</a></li>
+                        <li><a href="https://www.coursera.org/learn/security-data-analytics" class="resource-link">Coursera: Security Data Analytics</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=5cQeLcBbEeU" class="resource-link">Log Analysis Fundamentals</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Security Best Practices</h2>
+            <div class="security-note">
+                <strong>🔒 Log Analysis & IDS Guidelines:</strong>
+                <ul>
+                    <li>Always obtain proper authorization before monitoring systems</li>
+                    <li>Implement secure log storage and transmission</li>
+                    <li>Use centralized logging to prevent log tampering</li>
+                    <li>Regularly review and tune detection rules</li>
+                    <li>Implement proper alert handling and escalation procedures</li>
+                    <li>Protect the IDS system itself from compromise</li>
+                    <li>Follow data retention policies and privacy regulations</li>
+                    <li>Document all monitoring activities and findings</li>
+                </ul>
+            </div>
+
+            <h2>What You Learned</h2>
+            <div class="takeaways">
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li>Log analysis reveals security incidents that might otherwise go undetected</li>
+                    <li>Pattern recognition is essential for identifying attack indicators</li>
+                    <li>Event correlation provides context for isolated security events</li>
+                    <li>Real-time monitoring requires efficient processing and alerting</li>
+                    <li>Security monitoring must balance detection with usability</li>
+                </ul>
+            </div>
+
+            <h2>Next Steps</h2>
+            <div class="next-steps">
+                <h3>Continue Your Learning Journey</h3>
+                <ol>
+                    <li>Implement machine learning-based anomaly detection</li>
+                    <li>Add support for parsing Windows event logs</li>
+                    <li>Integrate with SIEM systems like Splunk or ELK stack</li>
+                    <li>Study advanced persistent threat (APT) detection techniques</li>
+                    <li>Explore automated incident response capabilities</li>
+                </ol>
+            </div>
+
+            <div class="next-steps">
+                <h3>Related Projects to Try Next</h3>
+                <ol>
+                    <li><a href="network-packet-sniffer.html" class="resource-link">Network Packet Sniffer</a> - Monitor network traffic for threats</li>
+                    <li><a href="security-information-event-management.html" class="resource-link">SIEM System</a> - Build a centralized security monitoring platform</li>
+                    <li><a href="intrusion-detection-system.html" class="resource-link">Advanced IDS</a> - Implement network-based intrusion detection</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><em>Happy coding! Log analysis is the cornerstone of effective cybersecurity monitoring.</em> <span class="emoji">📋</span></p>
+            <p><strong>Project:</strong> Log Analyzer & Intrusion Detection | <strong>Difficulty:</strong> Intermediate</p>
+            <p><strong>Author:</strong> jaspreet_singh | <strong>©</strong> 2025</p>
+            <div class="tags">
+                <span class="tag">#Cybersecurity</span>
+                <span class="tag">#LogAnalysis</span>
+                <span class="tag">#IntrusionDetection</span>
+                <span class="tag">#Monitoring</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

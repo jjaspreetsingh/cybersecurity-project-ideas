@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Traffic Analyzer - Cybersecurity Project</title>
+    <style>
+        /* Import professional fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        /* CSS Reset and Base Styles */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* GitHub Dark Theme Colors */
+        :root {
+            --gh-bg: #0d1117;
+            --gh-bg-secondary: #161b22;
+            --gh-bg-tertiary: #21262d;
+            --gh-border: #30363d;
+            --gh-border-secondary: #21262d;
+            --gh-text-primary: #f0f6fc;
+            --gh-text-secondary: #c9d1d9;
+            --gh-text-muted: #8b949e;
+            --gh-accent: #58a6ff;
+            --gh-accent-hover: #79c0ff;
+            --gh-success: #56d364;
+            --gh-warning: #d29922;
+            --gh-danger: #f85149;
+            --gh-code-bg: #161b22;
+            --gh-code-border: #30363d;
+        }
+        
+        /* Base Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gh-text-primary);
+            background: var(--gh-bg);
+            min-height: 100vh;
+            padding: 16px;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: 1.875rem;
+            border-bottom: 1px solid var(--gh-border);
+            padding-bottom: 8px;
+            margin-top: 48px;
+            margin-bottom: 24px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+        
+        h4 {
+            font-size: 1.25rem;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: var(--gh-text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* Links */
+        a {
+            color: var(--gh-accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        a:hover {
+            color: var(--gh-accent-hover);
+            text-decoration: underline;
+        }
+        
+        /* Lists */
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+            color: var(--gh-text-secondary);
+        }
+        
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            background: var(--gh-code-bg);
+            border: 1px solid var(--gh-code-border);
+            border-radius: 6px;
+            padding: 2px 6px;
+            color: var(--gh-text-primary);
+        }
+        
+        pre {
+            background: var(--gh-code-bg);
+            border: 1px solid var(--gh-code-border);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.45;
+        }
+        
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            background: var(--gh-bg-secondary);
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 48px 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--gh-border);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--gh-text-primary);
+        }
+        
+        .header .subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            font-weight: 400;
+            color: var(--gh-text-secondary);
+        }
+        
+        /* Content */
+        .content {
+            padding: 48px 32px;
+        }
+        
+        /* Project Cards */
+        .project-card {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            transition: all 0.2s ease;
+        }
+        
+        .project-card:hover {
+            border-color: var(--gh-accent);
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
+        }
+        
+        .project-card h3 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        .project-card p {
+            color: var(--gh-text-secondary);
+            margin-bottom: 16px;
+        }
+        
+        .project-card ul {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        
+        .project-card li {
+            color: var(--gh-text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* Project Header */
+        .project-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        
+        .difficulty {
+            font-size: 0.875rem;
+            color: var(--gh-text-secondary);
+            font-weight: 500;
+        }
+        
+        .time {
+            background: var(--gh-bg);
+            color: var(--gh-text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--gh-border);
+        }
+        
+        .skills {
+            background: var(--gh-bg);
+            color: var(--gh-text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--gh-border);
+        }
+        
+        /* Special Components */
+        .warning {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-warning);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+        
+        .warning strong {
+            color: var(--gh-warning);
+        }
+        
+        .security-note {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-accent);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+        
+        .security-note strong {
+            color: var(--gh-accent);
+        }
+        
+        .tips-box {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .pitfalls-box {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .pitfalls-box .wrong {
+            color: var(--gh-danger);
+            font-weight: 600;
+        }
+        
+        .pitfalls-box .right {
+            color: var(--gh-success);
+            font-weight: 600;
+        }
+        
+        .learning-path {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .week-card {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .week-card h4 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .resource-card {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+        }
+        
+        .resource-card h4 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--gh-border);
+            margin: 32px 0;
+        }
+        
+        .footer {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 32px;
+            text-align: center;
+            border-top: 1px solid var(--gh-border);
+        }
+        
+        .footer p {
+            color: var(--gh-text-secondary);
+            margin: 4px 0;
+            font-size: 0.875rem;
+        }
+        
+        .tags {
+            margin-top: 16px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: var(--gh-bg);
+            color: var(--gh-accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 4px;
+            border: 1px solid var(--gh-border);
+            transition: all 0.2s ease;
+        }
+        
+        .tag:hover {
+            background: var(--gh-accent);
+            color: var(--gh-bg);
+        }
+        
+        .takeaways {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .takeaways h3 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        .takeaways ul {
+            color: var(--gh-text-primary);
+        }
+        
+        .next-steps {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-success);
+            padding: 16px;
+            margin: 24px 0;
+            border-radius: 6px;
+        }
+        
+        .next-steps ol {
+            color: var(--gh-success);
+        }
+        
+        /* Step Boxes */
+        .step-box {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            padding: 20px;
+            margin: 16px 0;
+            position: relative;
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--gh-accent);
+            color: var(--gh-bg);
+            padding: 4px 8px;
+            font-weight: bold;
+            border-radius: 50%;
+            font-size: 0.75rem;
+        }
+        
+        .resource-link {
+            color: var(--gh-accent);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--gh-accent);
+        }
+        
+        .resource-link:hover {
+            border-bottom: 1px solid var(--gh-accent);
+        }
+        
+        /* Emoji */
+        .emoji {
+            font-size: 1.25rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+                font-size: 14px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .header {
+                padding: 32px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 32px 20px;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                margin-top: 32px;
+            }
+            
+            h3 {
+                font-size: 1.25rem;
+                margin-top: 24px;
+            }
+            
+            .project-card {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .footer {
+                padding: 24px 20px;
+            }
+            
+            pre {
+                font-size: 0.75rem;
+                padding: 12px;
+            }
+            
+            ul, ol {
+                margin-left: 20px;
+            }
+            
+            .step-box {
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .project-card {
+                padding: 16px;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+            
+            h3 {
+                font-size: 1.125rem;
+            }
+        }
+        
+        /* Focus and Accessibility */
+        a:focus,
+        button:focus {
+            outline: 2px solid var(--gh-accent);
+            outline-offset: 2px;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gh-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gh-border);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gh-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Network Traffic Analyzer</h1>
+            <p class="subtitle">Build an advanced network monitoring tool to analyze traffic patterns and detect anomalies</p>
+        </div>
+
+        <div class="content">
+            <div class="project-header">
+                <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐⭐☆</span>
+                <span class="time"><strong>Time:</strong> 6-8 hours</span>
+                <span class="skills"><strong>Skills:</strong> Network analysis, packet inspection, traffic monitoring</span>
+            </div>
+
+            <h2>Project Overview</h2>
+            <p>In this advanced project, you'll build a comprehensive network traffic analyzer that captures, analyzes, and reports on network traffic patterns. This tool goes beyond basic packet sniffing to provide deep insights into network behavior, protocol analysis, and anomaly detection.</p>
+
+            <h2>Why This Project Matters</h2>
+            <p>Network traffic analysis is crucial for cybersecurity monitoring. According to network security reports, anomalous traffic patterns often indicate security incidents like data exfiltration, malware communication, or unauthorized access. By building this tool, you'll learn:</p>
+            <ul>
+                <li>Advanced packet analysis and protocol dissection</li>
+                <li>Traffic pattern recognition and anomaly detection</li>
+                <li>Network flow analysis and session tracking</li>
+                <li>Real-time monitoring and alerting systems</li>
+                <li>Performance optimization for high-volume traffic</li>
+            </ul>
+
+            <h2>What You'll Build</h2>
+            <p>A sophisticated network traffic analyzer that:</p>
+            <ul>
+                <li>Captures and analyzes network packets in real-time</li>
+                <li>Tracks network conversations and session data</li>
+                <li>Detects anomalous traffic patterns and potential threats</li>
+                <li>Generates detailed traffic reports and statistics</li>
+                <li>Provides protocol-specific analysis (HTTP, DNS, etc.)</li>
+                <li>Includes both command-line and web-based interfaces</li>
+                <li>Supports filtering, searching, and export capabilities</li>
+            </ul>
+
+            <h2>Prerequisites</h2>
+            <p>Before starting, make sure you have:</p>
+            <ul>
+                <li>Python 3.8 or higher installed</li>
+                <li>Scapy library for packet manipulation</li>
+                <li>Understanding of network protocols and packet structure</li>
+                <li>A test network environment (virtual machines recommended)</li>
+                <li>Permission to monitor network traffic</li>
+            </ul>
+
+            <h2>Step-by-Step Implementation</h2>
+
+            <div class="step-box">
+                <div class="step-number">1</div>
+                <h3>Project Architecture and Setup</h3>
+                <p>Design the system architecture and set up the project structure.</p>
+                <pre><code># Create project directory
+mkdir network-traffic-analyzer
+cd network-traffic-analyzer
+
+# Create main modules
+touch traffic_analyzer.py
+touch packet_processor.py
+touch flow_tracker.py
+touch anomaly_detector.py
+touch report_generator.py
+touch web_interface.py
+touch requirements.txt
+
+# Create data and log directories
+mkdir data logs</code></pre>
+                <p><strong>Architecture components:</strong></p>
+                <ul>
+                    <li><code>packet_processor.py</code>: Handles packet capture and initial processing</li>
+                    <li><code>flow_tracker.py</code>: Tracks network conversations and sessions</li>
+                    <li><code>anomaly_detector.py</code>: Identifies suspicious traffic patterns</li>
+                    <li><code>report_generator.py</code>: Creates analysis reports and visualizations</li>
+                    <li><code>web_interface.py</code>: Provides web-based monitoring dashboard</li>
+                </ul>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">2</div>
+                <h3>Install Dependencies and Libraries</h3>
+                <p>Set up the required libraries for packet capture, analysis, and web interface.</p>
+                <pre><code># requirements.txt
+scapy>=2.4.5          # Packet manipulation and analysis
+flask>=2.0.0          # Web framework for dashboard
+plotly>=5.0.0         # Data visualization
+pandas>=1.3.0         # Data analysis and manipulation
+numpy>=1.21.0         # Numerical computing
+psutil>=5.8.0         # System and network statistics
+requests>=2.25.0      # HTTP requests for external data
+sqlite3               # Database storage (built-in)
+json                  # Data serialization</code></pre>
+                <pre><code>pip install -r requirements.txt
+
+# Install Scapy for packet capture (may require additional system packages)
+# On Ubuntu/Debian: sudo apt-get install python3-scapy
+# On macOS: pip install scapy[complete]</code></pre>
+                <p><strong>Key libraries:</strong></p>
+                <ul>
+                    <li><code>Scapy</code>: Powerful packet crafting and analysis library</li>
+                    <li><code>Flask</code>: Lightweight web framework for the dashboard</li>
+                    <li><code>Pandas</code>: Data analysis for traffic statistics</li>
+                    <li><code>Plotly</code>: Interactive charts and graphs</li>
+                </ul>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">3</div>
+                <h3>Build the Packet Processor</h3>
+                <p>Create the core packet capture and processing engine.</p>
+                <pre><code>from scapy.all import *
+from collections import defaultdict, Counter
+import time
+import threading
+import json
+from datetime import datetime, timedelta
+
+class PacketProcessor:
+    """Handles packet capture, processing, and basic analysis"""
+
+    def __init__(self, interface=None, capture_filter=""):
+        self.interface = interface or self._get_default_interface()
+        self.capture_filter = capture_filter
+        self.packets = []
+        self.stats = defaultdict(int)
+        self.protocol_stats = Counter()
+        self.ip_stats = Counter()
+        self.port_stats = Counter()
+        self.is_capturing = False
+        self.capture_thread = None
+
+    def _get_default_interface(self):
+        """Get the default network interface"""
+        try:
+            # Get default interface (cross-platform)
+            import psutil
+            interfaces = psutil.net_if_addrs()
+            # Return first non-loopback interface
+            for iface in interfaces:
+                if iface != 'lo' and not iface.startswith('lo'):
+                    return iface
+            return list(interfaces.keys())[0] if interfaces else 'eth0'
+        except:
+            return 'eth0'  # fallback
+
+    def packet_callback(self, packet):
+        """Process each captured packet"""
+        if not packet:
+            return
+
+        self.packets.append(packet)
+        self.stats['total_packets'] += 1
+
+        # Extract basic information
+        if packet.haslayer(IP):
+            src_ip = packet[IP].src
+            dst_ip = packet[IP].dst
+            protocol = packet[IP].proto
+
+            self.ip_stats[src_ip] += 1
+            self.ip_stats[dst_ip] += 1
+
+            # Protocol analysis
+            if protocol == 6:  # TCP
+                self.protocol_stats['TCP'] += 1
+                if packet.haslayer(TCP):
+                    src_port = packet[TCP].sport
+                    dst_port = packet[TCP].dport
+                    self.port_stats[src_port] += 1
+                    self.port_stats[dst_port] += 1
+            elif protocol == 17:  # UDP
+                self.protocol_stats['UDP'] += 1
+                if packet.haslayer(UDP):
+                    src_port = packet[UDP].sport
+                    dst_port = packet[UDP].dport
+                    self.port_stats[src_port] += 1
+                    self.port_stats[dst_port] += 1
+            elif protocol == 1:  # ICMP
+                self.protocol_stats['ICMP'] += 1
+            else:
+                self.protocol_stats['Other'] += 1
+
+        # HTTP analysis
+        if packet.haslayer(TCP) and packet.haslayer(Raw):
+            try:
+                payload = bytes(packet[Raw])
+                if payload.startswith(b'GET') or payload.startswith(b'POST') or payload.startswith(b'HTTP'):
+                    self.protocol_stats['HTTP'] += 1
+            except:
+                pass
+
+        # DNS analysis
+        if packet.haslayer(UDP) and packet.haslayer(DNS):
+            self.protocol_stats['DNS'] += 1
+
+    def start_capture(self, duration=None, packet_count=None):
+        """Start packet capture"""
+        self.is_capturing = True
+
+        def capture_worker():
+            try:
+                if duration:
+                    # Time-based capture
+                    sniff(iface=self.interface,
+                         prn=self.packet_callback,
+                         filter=self.capture_filter,
+                         timeout=duration,
+                         store=0)
+                elif packet_count:
+                    # Count-based capture
+                    sniff(iface=self.interface,
+                         prn=self.packet_callback,
+                         filter=self.capture_filter,
+                         count=packet_count,
+                         store=0)
+                else:
+                    # Continuous capture (until stopped)
+                    sniff(iface=self.interface,
+                         prn=self.packet_callback,
+                         filter=self.capture_filter,
+                         store=0,
+                         stop_filter=lambda x: not self.is_capturing)
+            except Exception as e:
+                print(f"Capture error: {e}")
+            finally:
+                self.is_capturing = False
+
+        self.capture_thread = threading.Thread(target=capture_worker, daemon=True)
+        self.capture_thread.start()
+
+    def stop_capture(self):
+        """Stop packet capture"""
+        self.is_capturing = False
+        if self.capture_thread:
+            self.capture_thread.join(timeout=5)
+
+    def get_statistics(self):
+        """Get current capture statistics"""
+        return {
+            'total_packets': self.stats['total_packets'],
+            'protocols': dict(self.protocol_stats.most_common(10)),
+            'top_ips': dict(self.ip_stats.most_common(10)),
+            'top_ports': dict(self.port_stats.most_common(10)),
+            'capture_interface': self.interface,
+            'is_capturing': self.is_capturing
+        }
+
+    def save_capture(self, filename):
+        """Save captured packets to file"""
+        try:
+            wrpcap(filename, self.packets)
+            return True
+        except Exception as e:
+            print(f"Error saving capture: {e}")
+            return False
+
+    def load_capture(self, filename):
+        """Load packets from capture file"""
+        try:
+            self.packets = rdpcap(filename)
+            # Re-process packets for statistics
+            self._reprocess_packets()
+            return True
+        except Exception as e:
+            print(f"Error loading capture: {e}")
+            return False
+
+    def _reprocess_packets(self):
+        """Re-process packets for statistics (used when loading from file)"""
+        # Reset statistics
+        self.stats = defaultdict(int)
+        self.protocol_stats = Counter()
+        self.ip_stats = Counter()
+        self.port_stats = Counter()
+
+        # Process each packet
+        for packet in self.packets:
+            self.packet_callback(packet)</code></pre>
+                <p><strong>Packet processing:</strong> The processor captures packets and extracts key information for analysis, including IP addresses, ports, and protocols.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">4</div>
+                <h3>Implement Flow Tracking</h3>
+                <p>Create a system to track network conversations and session data.</p>
+                <pre><code>from collections import defaultdict
+import time
+from datetime import datetime, timedelta
+
+class FlowTracker:
+    """Tracks network flows and conversations"""
+
+    def __init__(self):
+        self.flows = {}
+        self.flow_timeout = 300  # 5 minutes
+        self.active_flows = {}
+
+    def process_packet(self, packet):
+        """Process packet and update flow information"""
+        if not packet.haslayer(IP):
+            return
+
+        src_ip = packet[IP].src
+        dst_ip = packet[IP].dst
+        protocol = packet[IP].proto
+
+        # Create flow key (5-tuple)
+        if packet.haslayer(TCP):
+            src_port = packet[TCP].sport
+            dst_port = packet[TCP].dport
+            protocol_name = 'TCP'
+        elif packet.haslayer(UDP):
+            src_port = packet[UDP].sport
+            dst_port = packet[TCP].dport
+            protocol_name = 'UDP'
+        else:
+            src_port = 0
+            dst_port = 0
+            protocol_name = 'Other'
+
+        # Create bidirectional flow key
+        flow_key = self._create_flow_key(src_ip, dst_ip, src_port, dst_port, protocol)
+
+        current_time = time.time()
+
+        if flow_key not in self.flows:
+            # New flow
+            self.flows[flow_key] = {
+                'src_ip': src_ip,
+                'dst_ip': dst_ip,
+                'src_port': src_port,
+                'dst_port': dst_port,
+                'protocol': protocol_name,
+                'start_time': current_time,
+                'last_seen': current_time,
+                'packets': 0,
+                'bytes': 0,
+                'src_packets': 0,
+                'dst_packets': 0,
+                'src_bytes': 0,
+                'dst_bytes': 0
+            }
+
+        # Update flow statistics
+        flow = self.flows[flow_key]
+        flow['last_seen'] = current_time
+        flow['packets'] += 1
+
+        # Calculate packet size
+        packet_size = len(packet)
+        flow['bytes'] += packet_size
+
+        # Update directional statistics
+        if packet[IP].src == src_ip:
+            flow['src_packets'] += 1
+            flow['src_bytes'] += packet_size
+        else:
+            flow['dst_packets'] += 1
+            flow['dst_bytes'] += packet_size
+
+    def _create_flow_key(self, src_ip, dst_ip, src_port, dst_port, protocol):
+        """Create a unique flow key"""
+        # Ensure consistent ordering for bidirectional flows
+        if (src_ip, src_port) <= (dst_ip, dst_port):
+            return f"{src_ip}:{src_port}-{dst_ip}:{dst_port}-{protocol}"
+        else:
+            return f"{dst_ip}:{dst_port}-{src_ip}:{src_port}-{protocol}"
+
+    def cleanup_old_flows(self):
+        """Remove flows that haven't been seen recently"""
+        current_time = time.time()
+        timeout_threshold = current_time - self.flow_timeout
+
+        flows_to_remove = []
+        for flow_key, flow in self.flows.items():
+            if flow['last_seen'] < timeout_threshold:
+                flows_to_remove.append(flow_key)
+
+        for flow_key in flows_to_remove:
+            del self.flows[flow_key]
+
+        return len(flows_to_remove)
+
+    def get_active_flows(self):
+        """Get currently active flows"""
+        current_time = time.time()
+        active = {}
+
+        for flow_key, flow in self.flows.items():
+            # Consider flows active if seen within last 60 seconds
+            if current_time - flow['last_seen'] < 60:
+                duration = flow['last_seen'] - flow['start_time']
+                flow_copy = flow.copy()
+                flow_copy['duration'] = duration
+                flow_copy['packets_per_second'] = flow['packets'] / duration if duration > 0 else 0
+                flow_copy['bytes_per_second'] = flow['bytes'] / duration if duration > 0 else 0
+                active[flow_key] = flow_copy
+
+        return active
+
+    def get_flow_statistics(self):
+        """Get overall flow statistics"""
+        if not self.flows:
+            return {}
+
+        total_flows = len(self.flows)
+        active_flows = len(self.get_active_flows())
+
+        # Calculate protocol distribution
+        protocol_counts = defaultdict(int)
+        total_packets = 0
+        total_bytes = 0
+
+        for flow in self.flows.values():
+            protocol_counts[flow['protocol']] += 1
+            total_packets += flow['packets']
+            total_bytes += flow['bytes']
+
+        return {
+            'total_flows': total_flows,
+            'active_flows': active_flows,
+            'protocol_distribution': dict(protocol_counts),
+            'total_packets': total_packets,
+            'total_bytes': total_bytes,
+            'avg_packets_per_flow': total_packets / total_flows if total_flows > 0 else 0,
+            'avg_bytes_per_flow': total_bytes / total_flows if total_flows > 0 else 0
+        }
+
+    def detect_suspicious_flows(self):
+        """Detect potentially suspicious flows"""
+        suspicious = []
+        active_flows = self.get_active_flows()
+
+        for flow_key, flow in active_flows.items():
+            reasons = []
+
+            # High packet rate
+            if flow['packets_per_second'] > 1000:
+                reasons.append("High packet rate")
+
+            # Large data transfer
+            if flow['bytes_per_second'] > 1000000:  # 1MB/s
+                reasons.append("High bandwidth usage")
+
+            # Unusual ports
+            unusual_ports = [flow['src_port'], flow['dst_port']]
+            if any(port > 49151 for port in unusual_ports if port != 0):
+                reasons.append("Unusual port numbers")
+
+            # Asymmetric traffic
+            if abs(flow['src_packets'] - flow['dst_packets']) > flow['packets'] * 0.8:
+                reasons.append("Asymmetric packet distribution")
+
+            if reasons:
+                suspicious.append({
+                    'flow_key': flow_key,
+                    'flow': flow,
+                    'suspicious_reasons': reasons
+                })
+
+        return suspicious</code></pre>
+                <p><strong>Flow tracking:</strong> This system tracks network conversations, providing insights into connection patterns and potential security issues.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">5</div>
+                <h3>Build Anomaly Detection</h3>
+                <p>Implement algorithms to detect anomalous network behavior.</p>
+                <pre><code>import statistics
+from collections import deque
+import time
+
+class AnomalyDetector:
+    """Detects anomalous network traffic patterns"""
+
+    def __init__(self, window_size=100):
+        self.baseline_packets = deque(maxlen=window_size)
+        self.baseline_bytes = deque(maxlen=window_size)
+        self.baseline_flows = deque(maxlen=window_size)
+        self.is_trained = False
+        self.threshold_multiplier = 3.0  # Standard deviations
+
+    def update_baseline(self, stats):
+        """Update baseline with current statistics"""
+        self.baseline_packets.append(stats.get('total_packets', 0))
+        self.baseline_bytes.append(stats.get('bytes', 0))
+        self.baseline_flows.append(stats.get('active_flows', 0))
+
+        # Mark as trained once we have enough data
+        if len(self.baseline_packets) >= 10:
+            self.is_trained = True
+
+    def detect_anomalies(self, current_stats):
+        """Detect anomalies in current traffic"""
+        if not self.is_trained:
+            return []
+
+        anomalies = []
+
+        # Packet rate anomaly
+        if len(self.baseline_packets) >= 2:
+            packet_mean = statistics.mean(self.baseline_packets)
+            packet_stdev = statistics.stdev(self.baseline_packets) if len(self.baseline_packets) > 1 else 0
+
+            current_packets = current_stats.get('total_packets', 0)
+            if packet_stdev > 0:
+                packet_zscore = abs(current_packets - packet_mean) / packet_stdev
+                if packet_zscore > self.threshold_multiplier:
+                    anomalies.append({
+                        'type': 'packet_rate',
+                        'severity': 'high' if packet_zscore > 5 else 'medium',
+                        'description': f'Unusual packet rate: {current_packets} (expected ~{packet_mean:.0f})',
+                        'z_score': packet_zscore
+                    })
+
+        # Bandwidth anomaly
+        if len(self.baseline_bytes) >= 2:
+            bytes_mean = statistics.mean(self.baseline_bytes)
+            bytes_stdev = statistics.stdev(self.baseline_bytes) if len(self.baseline_bytes) > 1 else 0
+
+            current_bytes = current_stats.get('bytes', 0)
+            if bytes_stdev > 0:
+                bytes_zscore = abs(current_bytes - bytes_mean) / bytes_stdev
+                if bytes_zscore > self.threshold_multiplier:
+                    anomalies.append({
+                        'type': 'bandwidth',
+                        'severity': 'high' if bytes_zscore > 5 else 'medium',
+                        'description': f'Unusual bandwidth usage: {current_bytes} bytes (expected ~{bytes_mean:.0f})',
+                        'z_score': bytes_zscore
+                    })
+
+        # Flow count anomaly
+        if len(self.baseline_flows) >= 2:
+            flows_mean = statistics.mean(self.baseline_flows)
+            flows_stdev = statistics.stdev(self.baseline_flows) if len(self.baseline_flows) > 1 else 0
+
+            current_flows = current_stats.get('active_flows', 0)
+            if flows_stdev > 0:
+                flows_zscore = abs(current_flows - flows_mean) / flows_stdev
+                if flows_zscore > self.threshold_multiplier:
+                    anomalies.append({
+                        'type': 'flow_count',
+                        'severity': 'high' if flows_zscore > 5 else 'medium',
+                        'description': f'Unusual number of flows: {current_flows} (expected ~{flows_mean:.0f})',
+                        'z_score': flows_zscore
+                    })
+
+        return anomalies
+
+    def detect_protocol_anomalies(self, protocol_stats):
+        """Detect anomalies in protocol distribution"""
+        anomalies = []
+
+        # Check for unusual protocol distributions
+        total_packets = sum(protocol_stats.values())
+
+        if total_packets > 0:
+            # ICMP flood detection
+            icmp_percentage = protocol_stats.get('ICMP', 0) / total_packets
+            if icmp_percentage > 0.5:  # More than 50% ICMP
+                anomalies.append({
+                    'type': 'protocol_distribution',
+                    'severity': 'high',
+                    'description': f'High ICMP traffic: {icmp_percentage:.1%} of packets',
+                    'details': protocol_stats
+                })
+
+            # Unusual UDP percentage
+            udp_percentage = protocol_stats.get('UDP', 0) / total_packets
+            if udp_percentage > 0.8:  # More than 80% UDP
+                anomalies.append({
+                    'type': 'protocol_distribution',
+                    'severity': 'medium',
+                    'description': f'High UDP traffic: {udp_percentage:.1%} of packets',
+                    'details': protocol_stats
+                })
+
+        return anomalies
+
+    def detect_port_scan(self, port_stats, time_window=60):
+        """Detect potential port scanning activity"""
+        # Simple port scan detection based on unique ports accessed
+        unique_ports = len(port_stats)
+
+        # Thresholds for port scan detection
+        if unique_ports > 100:
+            return {
+                'detected': True,
+                'severity': 'high',
+                'description': f'Potential port scan: {unique_ports} unique ports accessed',
+                'unique_ports': unique_ports
+            }
+        elif unique_ports > 50:
+            return {
+                'detected': True,
+                'severity': 'medium',
+                'description': f'Suspicious port activity: {unique_ports} unique ports accessed',
+                'unique_ports': unique_ports
+            }
+
+        return {'detected': False}
+
+    def get_baseline_stats(self):
+        """Get current baseline statistics"""
+        if not self.is_trained:
+            return {}
+
+        return {
+            'packets_mean': statistics.mean(self.baseline_packets),
+            'packets_stdev': statistics.stdev(self.baseline_packets) if len(self.baseline_packets) > 1 else 0,
+            'bytes_mean': statistics.mean(self.baseline_bytes),
+            'bytes_stdev': statistics.stdev(self.baseline_bytes) if len(self.baseline_bytes) > 1 else 0,
+            'flows_mean': statistics.mean(self.baseline_flows),
+            'flows_stdev': statistics.stdev(self.baseline_flows) if len(self.baseline_flows) > 1 else 0,
+            'samples': len(self.baseline_packets)
+        }</code></pre>
+                <p><strong>Anomaly detection:</strong> Uses statistical methods to identify deviations from normal network behavior, helping detect potential security incidents.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">6</div>
+                <h3>Create the Main Analyzer Interface</h3>
+                <p>Build the command-line interface that orchestrates all components.</p>
+                <pre><code>#!/usr/bin/env python3
+"""
+Network Traffic Analyzer
+Advanced network monitoring and analysis tool
+"""
+
+import argparse
+import time
+import signal
+import sys
+import json
+from datetime import datetime
+from packet_processor import PacketProcessor
+from flow_tracker import FlowTracker
+from anomaly_detector import AnomalyDetector
+from report_generator import ReportGenerator
+
+class TrafficAnalyzer:
+    """Main traffic analysis application"""
+
+    def __init__(self):
+        self.processor = None
+        self.flow_tracker = FlowTracker()
+        self.anomaly_detector = AnomalyDetector()
+        self.report_generator = ReportGenerator()
+        self.is_running = False
+
+    def signal_handler(self, signum, frame):
+        """Handle interrupt signals"""
+        print("\nStopping traffic analysis...")
+        self.stop_analysis()
+        sys.exit(0)
+
+    def start_analysis(self, interface=None, capture_filter="", duration=None):
+        """Start traffic analysis"""
+        self.is_running = True
+
+        # Set up signal handlers
+        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
+
+        # Initialize components
+        self.processor = PacketProcessor(interface, capture_filter)
+
+        print(f"Starting traffic analysis on interface: {self.processor.interface}")
+        if capture_filter:
+            print(f"Capture filter: {capture_filter}")
+        if duration:
+            print(f"Duration: {duration} seconds")
+
+        start_time = time.time()
+
+        # Start packet capture
+        self.processor.start_capture(duration=duration)
+
+        try:
+            while self.is_running:
+                if duration and (time.time() - start_time) >= duration:
+                    break
+
+                # Process captured packets for flows
+                for packet in self.processor.packets[-100:]:  # Process last 100 packets
+                    self.flow_tracker.process_packet(packet)
+
+                # Update anomaly detector baseline
+                stats = self.processor.get_statistics()
+                flow_stats = self.flow_tracker.get_flow_statistics()
+                combined_stats = {**stats, **flow_stats}
+                self.anomaly_detector.update_baseline(combined_stats)
+
+                # Check for anomalies
+                anomalies = self.anomaly_detector.detect_anomalies(combined_stats)
+                protocol_anomalies = self.anomaly_detector.detect_protocol_anomalies(
+                    stats.get('protocols', {})
+                )
+
+                if anomalies or protocol_anomalies:
+                    print("\n🚨 ANOMALIES DETECTED:")
+                    for anomaly in anomalies + protocol_anomalies:
+                        severity_icon = "🔴" if anomaly['severity'] == 'high' else "🟡"
+                        print(f"{severity_icon} {anomaly['description']}")
+
+                # Clean up old flows periodically
+                removed = self.flow_tracker.cleanup_old_flows()
+                if removed > 0:
+                    print(f"Cleaned up {removed} old flows")
+
+                time.sleep(5)  # Update every 5 seconds
+
+        except KeyboardInterrupt:
+            pass
+        finally:
+            self.stop_analysis()
+
+    def stop_analysis(self):
+        """Stop traffic analysis"""
+        self.is_running = False
+        if self.processor:
+            self.processor.stop_capture()
+
+    def generate_report(self, output_file=None):
+        """Generate analysis report"""
+        if not self.processor:
+            print("No analysis data available. Run analysis first.")
+            return
+
+        # Collect all data
+        packet_stats = self.processor.get_statistics()
+        flow_stats = self.flow_tracker.get_flow_statistics()
+        anomaly_stats = self.anomaly_detector.get_baseline_stats()
+
+        report_data = {
+            'timestamp': datetime.now().isoformat(),
+            'packet_statistics': packet_stats,
+            'flow_statistics': flow_stats,
+            'anomaly_baseline': anomaly_stats,
+            'active_flows': self.flow_tracker.get_active_flows(),
+            'suspicious_flows': self.flow_tracker.detect_suspicious_flows()
+        }
+
+        # Generate report
+        report = self.report_generator.generate_report(report_data)
+
+        if output_file:
+            try:
+                with open(output_file, 'w') as f:
+                    json.dump(report_data, f, indent=2)
+                print(f"Report saved to: {output_file}")
+            except IOError as e:
+                print(f"Error saving report: {e}")
+
+        return report
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Network Traffic Analyzer - Advanced network monitoring tool",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Analyze traffic for 60 seconds
+  python traffic_analyzer.py --duration 60
+
+  # Monitor specific interface with filter
+  python traffic_analyzer.py -i eth0 --filter "tcp port 80"
+
+  # Generate report after analysis
+  python traffic_analyzer.py --duration 30 --report analysis.json
+
+  # Continuous monitoring with web interface
+  python traffic_analyzer.py --web --port 8080
+        """
+    )
+
+    parser.add_argument('-i', '--interface',
+                       help='Network interface to monitor')
+    parser.add_argument('--filter',
+                       help='Capture filter (tcpdump syntax)')
+    parser.add_argument('--duration', type=int,
+                       help='Analysis duration in seconds')
+    parser.add_argument('--report',
+                       help='Generate JSON report to file')
+    parser.add_argument('--web', action='store_true',
+                       help='Start web interface')
+    parser.add_argument('--port', type=int, default=8080,
+                       help='Web interface port (default: 8080)')
+
+    args = parser.parse_args()
+
+    analyzer = TrafficAnalyzer()
+
+    if args.web:
+        # Start web interface
+        from web_interface import start_web_interface
+        print(f"Starting web interface on port {args.port}")
+        start_web_interface(analyzer, port=args.port)
+    else:
+        # Command-line analysis
+        try:
+            analyzer.start_analysis(
+                interface=args.interface,
+                capture_filter=args.filter,
+                duration=args.duration
+            )
+
+            # Generate report if requested
+            if args.report:
+                analyzer.generate_report(args.report)
+
+        except Exception as e:
+            print(f"Analysis failed: {e}")
+            sys.exit(1)
+
+if __name__ == "__main__":
+    main()</code></pre>
+                <p><strong>Main interface:</strong> Orchestrates all components and provides both command-line and web interfaces for comprehensive traffic analysis.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">7</div>
+                <h3>Test Your Traffic Analyzer</h3>
+                <p>Test the complete system with various network scenarios.</p>
+                <pre><code># Basic traffic analysis for 30 seconds
+python traffic_analyzer.py --duration 30
+
+# Analyze with specific interface and filter
+python traffic_analyzer.py -i eth0 --filter "tcp port 80 or tcp port 443" --duration 60
+
+# Generate detailed report
+python traffic_analyzer.py --duration 30 --report traffic_analysis.json
+
+# Start web interface for real-time monitoring
+python traffic_analyzer.py --web --port 8080</code></pre>
+                <p><strong>Testing scenarios:</strong></p>
+                <ul>
+                    <li>Normal web browsing to establish baseline</li>
+                    <li>Download large files to test bandwidth monitoring</li>
+                    <li>Use network scanning tools to trigger anomaly detection</li>
+                    <li>Test with different protocols (HTTP, DNS, etc.)</li>
+                </ul>
+            </div>
+
+            <h2>Enhancement Ideas</h2>
+            <div class="tips-box">
+                <h3>Advanced Features to Add</h3>
+                <ul>
+                    <li><strong>Machine Learning Detection:</strong> Use ML algorithms for advanced anomaly detection</li>
+                    <li><strong>SIEM Integration:</strong> Send alerts to Security Information and Event Management systems</li>
+                    <li><strong>Packet Reconstruction:</strong> Reassemble TCP streams for content analysis</li>
+                    <li><strong>Geolocation Mapping:</strong> Map IP addresses to geographic locations</li>
+                    <li><strong>Historical Analysis:</strong> Compare current traffic to historical baselines</li>
+                    <li><strong>Custom Dashboards:</strong> Create specialized dashboards for different use cases</li>
+                    <li><strong>Automated Response:</strong> Implement automated blocking of suspicious traffic</li>
+                </ul>
+            </div>
+
+            <h2>Common Mistakes to Avoid</h2>
+            <div class="pitfalls-box">
+                <p><span class="wrong">❌ Running analysis on production networks without permission</span><br>
+                <span class="right">✅ Always get proper authorization before monitoring networks</span></p>
+                <p><span class="wrong">❌ Not considering packet capture performance impact</span><br>
+                <span class="right">✅ Monitor system resources and optimize for high-traffic environments</span></p>
+                <p><span class="wrong">❌ Ignoring encrypted traffic analysis limitations</span><br>
+                <span class="right">✅ Focus on metadata analysis when content is encrypted</span></p>
+                <p><span class="wrong">❌ Setting anomaly thresholds too sensitively</span><br>
+                <span class="right">✅ Tune detection thresholds based on your network's normal behavior</span></p>
+                <p><span class="wrong">❌ Not securing the analysis system itself</span><br>
+                <span class="right">✅ Protect the monitoring system from compromise</span></p>
+            </div>
+
+            <h2>Resources & Further Reading</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h4>Official Documentation</h4>
+                    <ul>
+                        <li><a href="https://scapy.readthedocs.io/" class="resource-link">Scapy Documentation</a></li>
+                        <li><a href="https://flask.palletsprojects.com/" class="resource-link">Flask Web Framework</a></li>
+                        <li><a href="https://pandas.pydata.org/docs/" class="resource-link">Pandas Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h4>Network Analysis</h4>
+                    <ul>
+                        <li><a href="https://en.wikipedia.org/wiki/NetFlow" class="resource-link">NetFlow Protocol</a></li>
+                        <li><a href="https://www.wireshark.org/docs/" class="resource-link">Wireshark Documentation</a></li>
+                        <li><a href="https://www.cisco.com/c/en/us/products/security/what-is-network-traffic-analysis.html" class="resource-link">Cisco: Network Traffic Analysis</a></li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h4>Learning Resources</h4>
+                    <ul>
+                        <li><a href="https://tryhackme.com/room/networkforensics" class="resource-link">TryHackMe: Network Forensics</a></li>
+                        <li><a href="https://www.coursera.org/learn/packet-switching-networks-algorithms" class="resource-link">Coursera: Packet Switching Networks</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=5cQeLcBbEeU" class="resource-link">Network Analysis Fundamentals</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Security Best Practices</h2>
+            <div class="security-note">
+                <strong>🔒 Network Monitoring Guidelines:</strong>
+                <ul>
+                    <li>Always obtain proper authorization before monitoring networks</li>
+                    <li>Use dedicated monitoring interfaces to avoid impacting production traffic</li>
+                    <li>Implement proper data handling and privacy protections</li>
+                    <li>Secure the monitoring system itself against compromise</li>
+                    <li>Regularly update and patch monitoring software</li>
+                    <li>Implement proper logging and audit trails</li>
+                    <li>Use encryption for sensitive monitoring data</li>
+                    <li>Follow data retention policies and privacy regulations</li>
+                </ul>
+            </div>
+
+            <h2>What You Learned</h2>
+            <div class="takeaways">
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li>Network traffic analysis reveals communication patterns and potential threats</li>
+                    <li>Statistical anomaly detection identifies deviations from normal behavior</li>
+                    <li>Flow tracking provides insights into network conversations</li>
+                    <li>Real-time monitoring requires efficient data processing</li>
+                    <li>Security monitoring must balance detection with performance</li>
+                </ul>
+            </div>
+
+            <h2>Next Steps</h2>
+            <div class="next-steps">
+                <h3>Continue Your Learning Journey</h3>
+                <ol>
+                    <li>Implement machine learning-based anomaly detection</li>
+                    <li>Add support for NetFlow and IPFIX protocols</li>
+                    <li>Integrate with existing SIEM and monitoring systems</li>
+                    <li>Study advanced network forensics techniques</li>
+                    <li>Explore encrypted traffic analysis methods</li>
+                </ol>
+            </div>
+
+            <div class="next-steps">
+                <h3>Related Projects to Try Next</h3>
+                <ol>
+                    <li><a href="network-packet-sniffer.html" class="resource-link">Network Packet Sniffer</a> - Learn basic packet capture techniques</li>
+                    <li><a href="intrusion-detection-system.html" class="resource-link">Intrusion Detection System</a> - Build on anomaly detection concepts</li>
+                    <li><a href="security-information-event-management.html" class="resource-link">SIEM System</a> - Create a centralized security monitoring platform</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><em>Happy coding! Network traffic analysis is the foundation of modern cybersecurity monitoring.</em> <span class="emoji">📊</span></p>
+            <p><strong>Project:</strong> Network Traffic Analyzer | <strong>Difficulty:</strong> Advanced</p>
+            <p><strong>Author:</strong> jaspreet_singh | <strong>©</strong> 2025</p>
+            <div class="tags">
+                <span class="tag">#Cybersecurity</span>
+                <span class="tag">#NetworkAnalysis</span>
+                <span class="tag">#TrafficMonitoring</span>
+                <span class="tag">#AnomalyDetection</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

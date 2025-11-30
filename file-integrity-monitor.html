@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Integrity Monitor - Cybersecurity Project</title>
+    <style>
+        /* Import professional fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        /* CSS Reset and Base Styles */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* GitHub Dark Theme Colors */
+        :root {
+            --gh-bg: #0d1117;
+            --gh-bg-secondary: #161b22;
+            --gh-bg-tertiary: #21262d;
+            --gh-border: #30363d;
+            --gh-border-secondary: #21262d;
+            --gh-text-primary: #f0f6fc;
+            --gh-text-secondary: #c9d1d9;
+            --gh-text-muted: #8b949e;
+            --gh-accent: #58a6ff;
+            --gh-accent-hover: #79c0ff;
+            --gh-success: #56d364;
+            --gh-warning: #d29922;
+            --gh-danger: #f85149;
+            --gh-code-bg: #161b22;
+            --gh-code-border: #30363d;
+        }
+        
+        /* Base Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gh-text-primary);
+            background: var(--gh-bg);
+            min-height: 100vh;
+            padding: 16px;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: 1.875rem;
+            border-bottom: 1px solid var(--gh-border);
+            padding-bottom: 8px;
+            margin-top: 48px;
+            margin-bottom: 24px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+        
+        h4 {
+            font-size: 1.25rem;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: var(--gh-text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* Links */
+        a {
+            color: var(--gh-accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        a:hover {
+            color: var(--gh-accent-hover);
+            text-decoration: underline;
+        }
+        
+        /* Lists */
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+            color: var(--gh-text-secondary);
+        }
+        
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            background: var(--gh-code-bg);
+            border: 1px solid var(--gh-code-border);
+            border-radius: 6px;
+            padding: 2px 6px;
+            color: var(--gh-text-primary);
+        }
+        
+        pre {
+            background: var(--gh-code-bg);
+            border: 1px solid var(--gh-code-border);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.45;
+        }
+        
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            background: var(--gh-bg-secondary);
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 48px 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--gh-border);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--gh-text-primary);
+        }
+        
+        .header .subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            font-weight: 400;
+            color: var(--gh-text-secondary);
+        }
+        
+        /* Content */
+        .content {
+            padding: 48px 32px;
+        }
+        
+        /* Project Cards */
+        .project-card {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            transition: all 0.2s ease;
+        }
+        
+        .project-card:hover {
+            border-color: var(--gh-accent);
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
+        }
+        
+        .project-card h3 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        .project-card p {
+            color: var(--gh-text-secondary);
+            margin-bottom: 16px;
+        }
+        
+        .project-card ul {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        
+        .project-card li {
+            color: var(--gh-text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* Project Header */
+        .project-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        
+        .difficulty {
+            font-size: 0.875rem;
+            color: var(--gh-text-secondary);
+            font-weight: 500;
+        }
+        
+        .time {
+            background: var(--gh-bg);
+            color: var(--gh-text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--gh-border);
+        }
+        
+        .skills {
+            background: var(--gh-bg);
+            color: var(--gh-text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--gh-border);
+        }
+        
+        /* Special Components */
+        .warning {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-warning);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+        
+        .warning strong {
+            color: var(--gh-warning);
+        }
+        
+        .security-note {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-accent);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+        
+        .security-note strong {
+            color: var(--gh-accent);
+        }
+        
+        .tips-box {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .pitfalls-box {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .pitfalls-box .wrong {
+            color: var(--gh-danger);
+            font-weight: 600;
+        }
+        
+        .pitfalls-box .right {
+            color: var(--gh-success);
+            font-weight: 600;
+        }
+        
+        .learning-path {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .week-card {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .week-card h4 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .resource-card {
+            background: var(--gh-bg-tertiary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+        }
+        
+        .resource-card h4 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--gh-border);
+            margin: 32px 0;
+        }
+        
+        .footer {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 32px;
+            text-align: center;
+            border-top: 1px solid var(--gh-border);
+        }
+        
+        .footer p {
+            color: var(--gh-text-secondary);
+            margin: 4px 0;
+            font-size: 0.875rem;
+        }
+        
+        .tags {
+            margin-top: 16px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: var(--gh-bg);
+            color: var(--gh-accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 4px;
+            border: 1px solid var(--gh-border);
+            transition: all 0.2s ease;
+        }
+        
+        .tag:hover {
+            background: var(--gh-accent);
+            color: var(--gh-bg);
+        }
+        
+        .takeaways {
+            background: var(--gh-bg-tertiary);
+            color: var(--gh-text-primary);
+            padding: 20px;
+            border: 1px solid var(--gh-border);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .takeaways h3 {
+            color: var(--gh-text-primary);
+            margin-top: 0;
+        }
+        
+        .takeaways ul {
+            color: var(--gh-text-primary);
+        }
+        
+        .next-steps {
+            background: var(--gh-bg-tertiary);
+            border-left: 4px solid var(--gh-success);
+            padding: 16px;
+            margin: 24px 0;
+            border-radius: 6px;
+        }
+        
+        .next-steps ol {
+            color: var(--gh-success);
+        }
+        
+        /* Step Boxes */
+        .step-box {
+            background: var(--gh-bg-tertiary);
+            border: 1px solid var(--gh-border);
+            padding: 20px;
+            margin: 16px 0;
+            position: relative;
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--gh-accent);
+            color: var(--gh-bg);
+            padding: 4px 8px;
+            font-weight: bold;
+            border-radius: 50%;
+            font-size: 0.75rem;
+        }
+        
+        .resource-link {
+            color: var(--gh-accent);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--gh-accent);
+        }
+        
+        .resource-link:hover {
+            border-bottom: 1px solid var(--gh-accent);
+        }
+        
+        /* Emoji */
+        .emoji {
+            font-size: 1.25rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+                font-size: 14px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .header {
+                padding: 32px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 32px 20px;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                margin-top: 32px;
+            }
+            
+            h3 {
+                font-size: 1.25rem;
+                margin-top: 24px;
+            }
+            
+            .project-card {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .footer {
+                padding: 24px 20px;
+            }
+            
+            pre {
+                font-size: 0.75rem;
+                padding: 12px;
+            }
+            
+            ul, ol {
+                margin-left: 20px;
+            }
+            
+            .step-box {
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .project-card {
+                padding: 16px;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+            
+            h3 {
+                font-size: 1.125rem;
+            }
+        }
+        
+        /* Focus and Accessibility */
+        a:focus,
+        button:focus {
+            outline: 2px solid var(--gh-accent);
+            outline-offset: 2px;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gh-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gh-border);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gh-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>File Integrity Monitor</h1>
+            <p class="subtitle">Build a system to detect unauthorized file changes using cryptographic hashing</p>
+        </div>
+
+        <div class="content">
+            <div class="project-header">
+                <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐☆☆☆</span>
+                <span class="time"><strong>Time:</strong> 3-4 hours</span>
+                <span class="skills"><strong>Skills:</strong> File system security, hashing, monitoring</span>
+            </div>
+
+            <h2>Project Overview</h2>
+            <p>In this project, you'll build a file integrity monitoring system that uses cryptographic hashing to detect unauthorized changes to files. This is a fundamental security tool used in intrusion detection and system monitoring.</p>
+
+            <h2>Why This Project Matters</h2>
+            <p>File integrity monitoring is crucial for detecting malware, unauthorized access, and system compromises. According to security reports, file integrity violations are often the first sign of a breach. By building this tool, you'll learn:</p>
+            <ul>
+                <li>How cryptographic hashing works</li>
+                <li>File system monitoring techniques</li>
+                <li>Change detection algorithms</li>
+                <li>Security monitoring best practices</li>
+                <li>Incident response fundamentals</li>
+            </ul>
+
+            <h2>What You'll Build</h2>
+            <p>A comprehensive file integrity monitoring system that:</p>
+            <ul>
+                <li>Calculates cryptographic hashes of monitored files</li>
+                <li>Stores baseline hashes for comparison</li>
+                <li>Detects file modifications, deletions, and additions</li>
+                <li>Generates security alerts and reports</li>
+                <li>Supports both manual and automated scanning</li>
+            </ul>
+
+            <h2>Prerequisites</h2>
+            <p>Before starting, make sure you have:</p>
+            <ul>
+                <li>Python 3.8 or higher installed</li>
+                <li>Basic understanding of file operations in Python</li>
+                <li>Knowledge of command-line interfaces</li>
+                <li>A test directory with some files to monitor</li>
+            </ul>
+
+            <h2>Step-by-Step Implementation</h2>
+
+            <div class="step-box">
+                <div class="step-number">1</div>
+                <h3>Project Setup and File Structure</h3>
+                <p>Create the project directory and set up the basic file structure.</p>
+                <pre><code># Create project directory
+mkdir file-integrity-monitor
+cd file-integrity-monitor
+
+# Create main files
+touch file_monitor.py
+touch hash_database.py
+touch monitor_config.py
+touch requirements.txt
+
+# Create test directory
+mkdir test_files
+echo "This is a test file" > test_files/test1.txt
+echo "Another test file" > test_files/test2.txt</code></pre>
+                <p><strong>Why this structure?</strong> Separating concerns makes the code more maintainable and easier to understand.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">2</div>
+                <h3>Install Required Libraries</h3>
+                <p>Set up the dependencies for cryptographic operations and file handling.</p>
+                <pre><code># requirements.txt
+hashlib          # Cryptographic hashing
+os               # File system operations
+json             # Data storage
+datetime         # Timestamp handling
+pathlib          # Modern path handling</code></pre>
+                <pre><code>pip install -r requirements.txt</code></pre>
+                <p><strong>Library choices:</strong></p>
+                <ul>
+                    <li><code>hashlib</code>: Provides SHA-256 and other cryptographic hash functions</li>
+                    <li><code>os</code> and <code>pathlib</code>: Cross-platform file system operations</li>
+                    <li><code>json</code>: Human-readable data storage format</li>
+                    <li><code>datetime</code>: Timestamp tracking for monitoring</li>
+                </ul>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">3</div>
+                <h3>Create Hash Calculation Functions</h3>
+                <p>Build the core cryptographic functions for calculating file hashes.</p>
+                <pre><code>import hashlib
+import os
+from pathlib import Path
+
+def calculate_file_hash(filepath, algorithm='sha256'):
+    """
+    Calculate cryptographic hash of a file
+
+    Args:
+        filepath (str): Path to the file
+        algorithm (str): Hash algorithm ('md5', 'sha1', 'sha256')
+
+    Returns:
+        str: Hexadecimal hash string
+    """
+    hash_func = getattr(hashlib, algorithm)()
+
+    try:
+        with open(filepath, 'rb') as f:
+            # Read file in chunks to handle large files
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_func.update(chunk)
+
+        return hash_func.hexdigest()
+
+    except (IOError, OSError) as e:
+        print(f"Error reading file {filepath}: {e}")
+        return None
+
+def calculate_directory_hash(directory_path, algorithm='sha256'):
+    """
+    Calculate hashes for all files in a directory
+
+    Args:
+        directory_path (str): Path to directory
+        algorithm (str): Hash algorithm
+
+    Returns:
+        dict: Dictionary mapping file paths to hashes
+    """
+    file_hashes = {}
+
+    for root, dirs, files in os.walk(directory_path):
+        for file in files:
+            filepath = os.path.join(root, file)
+            file_hash = calculate_file_hash(filepath, algorithm)
+
+            if file_hash:
+                # Store relative path for consistency
+                rel_path = os.path.relpath(filepath, directory_path)
+                file_hashes[rel_path] = file_hash
+
+    return file_hashes</code></pre>
+                <p><strong>Why chunked reading?</strong> Reading large files in chunks prevents memory issues and allows monitoring of files of any size.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">4</div>
+                <h3>Build the Hash Database</h3>
+                <p>Create a system to store and manage baseline file hashes.</p>
+                <pre><code>import json
+from datetime import datetime
+import os
+
+class HashDatabase:
+    """Manages storage and retrieval of file hashes"""
+
+    def __init__(self, db_file='hash_database.json'):
+        self.db_file = db_file
+        self.data = self._load_database()
+
+    def _load_database(self):
+        """Load hash database from file"""
+        if os.path.exists(self.db_file):
+            try:
+                with open(self.db_file, 'r') as f:
+                    return json.load(f)
+            except json.JSONDecodeError:
+                print("Warning: Could not load database file. Starting fresh.")
+                return {}
+        return {}
+
+    def save_database(self):
+        """Save hash database to file"""
+        try:
+            with open(self.db_file, 'w') as f:
+                json.dump(self.data, f, indent=2)
+        except IOError as e:
+            print(f"Error saving database: {e}")
+
+    def create_baseline(self, directory_path, scan_name=None):
+        """
+        Create baseline hash database for a directory
+
+        Args:
+            directory_path (str): Directory to scan
+            scan_name (str): Name for this baseline scan
+        """
+        if scan_name is None:
+            scan_name = f"baseline_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+
+        from file_monitor import calculate_directory_hash
+        file_hashes = calculate_directory_hash(directory_path)
+
+        self.data[scan_name] = {
+            'timestamp': datetime.now().isoformat(),
+            'directory': directory_path,
+            'hashes': file_hashes,
+            'algorithm': 'sha256'
+        }
+
+        self.save_database()
+        print(f"Baseline created: {scan_name} ({len(file_hashes)} files)")
+
+    def get_baseline(self, scan_name):
+        """Retrieve a baseline scan"""
+        return self.data.get(scan_name)
+
+    def list_baselines(self):
+        """List all available baselines"""
+        return list(self.data.keys())</code></pre>
+                <p><strong>Database design:</strong> JSON format provides human-readable storage that's easy to backup and version control.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">5</div>
+                <h3>Implement Change Detection</h3>
+                <p>Build the core monitoring logic to detect file changes.</p>
+                <pre><code>def detect_changes(current_hashes, baseline_hashes):
+    """
+    Compare current hashes with baseline to detect changes
+
+    Args:
+        current_hashes (dict): Current file hashes
+        baseline_hashes (dict): Baseline file hashes
+
+    Returns:
+        dict: Changes detected (modified, added, deleted)
+    """
+    changes = {
+        'modified': [],
+        'added': [],
+        'deleted': []
+    }
+
+    # Check for modified and deleted files
+    for filepath, baseline_hash in baseline_hashes.items():
+        if filepath in current_hashes:
+            if current_hashes[filepath] != baseline_hash:
+                changes['modified'].append(filepath)
+        else:
+            changes['deleted'].append(filepath)
+
+    # Check for added files
+    for filepath in current_hashes:
+        if filepath not in baseline_hashes:
+            changes['added'].append(filepath)
+
+    return changes
+
+def generate_report(changes, baseline_name, current_time):
+    """
+    Generate a human-readable change report
+
+    Args:
+        changes (dict): Detected changes
+        baseline_name (str): Name of baseline scan
+        current_time (str): Current timestamp
+
+    Returns:
+        str: Formatted report
+    """
+    report = []
+    report.append("=" * 60)
+    report.append("FILE INTEGRITY MONITOR REPORT")
+    report.append("=" * 60)
+    report.append(f"Baseline: {baseline_name}")
+    report.append(f"Scan Time: {current_time}")
+    report.append("")
+
+    total_changes = sum(len(files) for files in changes.values())
+
+    if total_changes == 0:
+        report.append("✅ NO CHANGES DETECTED")
+        report.append("All monitored files are intact.")
+    else:
+        report.append(f"⚠️  CHANGES DETECTED ({total_changes} total)")
+        report.append("")
+
+        if changes['modified']:
+            report.append(f"📝 MODIFIED FILES ({len(changes['modified'])}):")
+            for file in changes['modified']:
+                report.append(f"  • {file}")
+            report.append("")
+
+        if changes['added']:
+            report.append(f"➕ ADDED FILES ({len(changes['added'])}):")
+            for file in changes['added']:
+                report.append(f"  • {file}")
+            report.append("")
+
+        if changes['deleted']:
+            report.append(f"➖ DELETED FILES ({len(changes['deleted'])}):")
+            for file in changes['deleted']:
+                report.append(f"  • {file}")
+
+    report.append("=" * 60)
+    return "\n".join(report)</code></pre>
+                <p><strong>Change types:</strong> The system detects three types of changes: modifications, additions, and deletions, each requiring different security responses.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">6</div>
+                <h3>Create the Main Monitoring Interface</h3>
+                <p>Build the command-line interface that ties everything together.</p>
+                <pre><code>#!/usr/bin/env python3
+"""
+File Integrity Monitor
+A tool to detect unauthorized file changes using cryptographic hashing
+"""
+
+import argparse
+from datetime import datetime
+import os
+import sys
+
+# Import our modules
+from hash_database import HashDatabase
+from file_monitor import calculate_directory_hash, detect_changes, generate_report
+
+def create_baseline(args):
+    """Create a new baseline scan"""
+    if not os.path.exists(args.directory):
+        print(f"Error: Directory '{args.directory}' does not exist")
+        return
+
+    db = HashDatabase(args.database)
+    db.create_baseline(args.directory, args.name)
+
+def scan_integrity(args):
+    """Scan for file integrity changes"""
+    if not os.path.exists(args.database):
+        print(f"Error: Database file '{args.database}' does not exist")
+        print("Create a baseline first using: python file_monitor.py baseline <directory>")
+        return
+
+    db = HashDatabase(args.database)
+
+    if args.baseline not in db.list_baselines():
+        print(f"Error: Baseline '{args.baseline}' not found")
+        print(f"Available baselines: {', '.join(db.list_baselines())}")
+        return
+
+    baseline_data = db.get_baseline(args.baseline)
+    baseline_hashes = baseline_data['hashes']
+    directory = baseline_data['directory']
+
+    if not os.path.exists(directory):
+        print(f"Error: Monitored directory '{directory}' no longer exists")
+        return
+
+    print(f"Scanning directory: {directory}")
+    print(f"Using baseline: {args.baseline}")
+    print("Please wait...")
+
+    current_hashes = calculate_directory_hash(directory)
+    changes = detect_changes(current_hashes, baseline_hashes)
+
+    current_time = datetime.now().isoformat()
+    report = generate_report(changes, args.baseline, current_time)
+
+    print("\n" + report)
+
+    # Save report to file if requested
+    if args.output:
+        try:
+            with open(args.output, 'w') as f:
+                f.write(report)
+            print(f"\nReport saved to: {args.output}")
+        except IOError as e:
+            print(f"Error saving report: {e}")
+
+def list_baselines(args):
+    """List available baselines"""
+    db = HashDatabase(args.database)
+    baselines = db.list_baselines()
+
+    if not baselines:
+        print("No baselines found. Create one using: python file_monitor.py baseline <directory>")
+        return
+
+    print("Available baselines:")
+    for baseline in baselines:
+        baseline_data = db.get_baseline(baseline)
+        timestamp = baseline_data['timestamp']
+        directory = baseline_data['directory']
+        file_count = len(baseline_data['hashes'])
+        print(f"  • {baseline} ({timestamp}) - {directory} ({file_count} files)")
+
+def main():
+    parser = argparse.ArgumentParser(description="File Integrity Monitor")
+    parser.add_argument('--database', default='hash_database.json',
+                       help='Database file path (default: hash_database.json)')
+
+    subparsers = parser.add_subparsers(dest='command', help='Available commands')
+
+    # Baseline command
+    baseline_parser = subparsers.add_parser('baseline', help='Create baseline scan')
+    baseline_parser.add_argument('directory', help='Directory to monitor')
+    baseline_parser.add_argument('--name', help='Name for the baseline scan')
+
+    # Scan command
+    scan_parser = subparsers.add_parser('scan', help='Scan for changes')
+    scan_parser.add_argument('--baseline', default='latest',
+                            help='Baseline to compare against')
+    scan_parser.add_argument('--output', help='Save report to file')
+
+    # List command
+    list_parser = subparsers.add_parser('list', help='List available baselines')
+
+    args = parser.parse_args()
+
+    if not args.command:
+        parser.print_help()
+        return
+
+    if args.command == 'baseline':
+        create_baseline(args)
+    elif args.command == 'scan':
+        scan_integrity(args)
+    elif args.command == 'list':
+        list_baselines(args)
+
+if __name__ == "__main__":
+    main()</code></pre>
+                <p><strong>Command-line interface:</strong> A well-designed CLI makes the tool professional and easy to integrate into automated systems.</p>
+            </div>
+
+            <div class="step-box">
+                <div class="step-number">7</div>
+                <h3>Test Your File Integrity Monitor</h3>
+                <p>Test the complete system with your test files.</p>
+                <pre><code># Create baseline
+python file_monitor.py baseline test_files --name initial_scan
+
+# List baselines
+python file_monitor.py list
+
+# Modify a file
+echo "Modified content" > test_files/test1.txt
+
+# Add a new file
+echo "New file content" > test_files/new_file.txt
+
+# Delete a file
+rm test_files/test2.txt
+
+# Scan for changes
+python file_monitor.py scan --baseline initial_scan</code></pre>
+                <p><strong>Expected output:</strong> The scan should detect all three types of changes (modified, added, deleted) and generate a detailed report.</p>
+            </div>
+
+            <h2>Enhancement Ideas</h2>
+            <div class="tips-box">
+                <h3>Advanced Features to Add</h3>
+                <ul>
+                    <li><strong>Real-time Monitoring:</strong> Use file system watchers to detect changes instantly</li>
+                    <li><strong>Email/SMS Alerts:</strong> Send notifications when changes are detected</li>
+                    <li><strong>Scheduled Scans:</strong> Automate regular integrity checks using cron</li>
+                    <li><strong>Web Dashboard:</strong> Create a web interface to view reports and manage baselines</li>
+                    <li><strong>Multiple Hash Algorithms:</strong> Support MD5, SHA-1, SHA-256, and SHA-3</li>
+                    <li><strong>Compression Support:</strong> Handle compressed archives and disk images</li>
+                </ul>
+            </div>
+
+            <h2>Common Mistakes to Avoid</h2>
+            <div class="pitfalls-box">
+                <p><span class="wrong">❌ Using weak hash algorithms like MD5 for security</span><br>
+                <span class="right">✅ Use SHA-256 or stronger for cryptographic integrity</span></p>
+                <p><span class="wrong">❌ Not handling file access errors gracefully</span><br>
+                <span class="right">✅ Implement proper error handling for file operations</span></p>
+                <p><span class="wrong">❌ Storing sensitive baseline data insecurely</span><br>
+                <span class="right">✅ Protect hash databases with proper permissions</span></p>
+                <p><span class="wrong">❌ Not considering file system metadata changes</span><br>
+                <span class="right">✅ Focus on content changes, not just timestamps</span></p>
+            </div>
+
+            <h2>Resources & Further Reading</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h4>Official Documentation</h4>
+                    <ul>
+                        <li><a href="https://docs.python.org/3/library/hashlib.html" class="resource-link">Python hashlib documentation</a></li>
+                        <li><a href="https://docs.python.org/3/library/os.html" class="resource-link">Python os module</a></li>
+                        <li><a href="https://docs.python.org/3/library/pathlib.html" class="resource-link">Python pathlib module</a></li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h4>Security Research</h4>
+                    <ul>
+                        <li><a href="https://en.wikipedia.org/wiki/File_verification" class="resource-link">File Verification Concepts</a></li>
+                        <li><a href="https://www.sans.org/reading-room/whitepapers/forensics/file-integrity-monitoring-37320" class="resource-link">SANS: File Integrity Monitoring</a></li>
+                        <li><a href="https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final" class="resource-link">NIST SP 800-53 Security Controls</a></li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h4>Learning Resources</h4>
+                    <ul>
+                        <li><a href="https://tryhackme.com/room/introtohashing" class="resource-link">TryHackMe: Intro to Hashing</a></li>
+                        <li><a href="https://www.coursera.org/learn/cybersecurity-for-everyone" class="resource-link">Coursera: Cybersecurity Fundamentals</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=DMtFhACPnTY" class="resource-link">Hash Functions Explained</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Security Best Practices</h2>
+            <div class="security-note">
+                <strong>🛡️ File Integrity Monitoring Guidelines:</strong>
+                <ul>
+                    <li>Use cryptographically strong hash functions (SHA-256 minimum)</li>
+                    <li>Store baseline hashes securely with proper access controls</li>
+                    <li>Regularly update baselines after authorized changes</li>
+                    <li>Monitor critical system files and configuration directories</li>
+                    <li>Implement alerting for detected changes</li>
+                    <li>Combine with other security controls (SIEM, IDS, etc.)</li>
+                    <li>Document all change approvals and incident responses</li>
+                </ul>
+            </div>
+
+            <h2>What You Learned</h2>
+            <div class="takeaways">
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li>Cryptographic hashing ensures data integrity</li>
+                    <li>Change detection requires comparing current state to known good baseline</li>
+                    <li>File system monitoring is essential for intrusion detection</li>
+                    <li>Proper error handling is crucial for reliable security tools</li>
+                    <li>Security monitoring should be proactive, not just reactive</li>
+                </ul>
+            </div>
+
+            <h2>Next Steps</h2>
+            <div class="next-steps">
+                <h3>Continue Your Learning Journey</h3>
+                <ol>
+                    <li>Implement real-time file system monitoring using watchdog</li>
+                    <li>Add email alerts for detected changes</li>
+                    <li>Create a web interface for managing baselines</li>
+                    <li>Integrate with existing SIEM systems</li>
+                    <li>Study advanced intrusion detection techniques</li>
+                </ol>
+            </div>
+
+            <div class="next-steps">
+                <h3>Related Projects to Try Next</h3>
+                <ol>
+                    <li><a href="log-analyzer.html" class="resource-link">Log Analyzer & Intrusion Detection</a> - Monitor system logs for suspicious activity</li>
+                    <li><a href="network-packet-sniffer.html" class="resource-link">Network Packet Sniffer</a> - Monitor network traffic for anomalies</li>
+                    <li><a href="security-audit-tool.html" class="resource-link">Security Audit Tool</a> - Combine multiple security checks</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><em>Happy coding! File integrity monitoring is a cornerstone of cybersecurity.</em> <span class="emoji">🔍</span></p>
+            <p><strong>Project:</strong> File Integrity Monitor | <strong>Difficulty:</strong> Beginner</p>
+            <p><strong>Author:</strong> jaspreet_singh | <strong>©</strong> 2025</p>
+            <div class="tags">
+                <span class="tag">#Cybersecurity</span>
+                <span class="tag">#FileIntegrity</span>
+                <span class="tag">#Hashing</span>
+                <span class="tag">#Monitoring</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

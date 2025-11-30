@@ -12,11 +12,14 @@ This repository organizes projects into categories based on difficulty and focus
   - Password Strength Checker
   - File Integrity Monitor
   - Encrypted File Vault
+  - Secure Password Manager
+   - Secure Password Manager
 
 - **[Network Security](network-security.html)**: Dive into network-based attacks and defenses, ideal for understanding connectivity and traffic.
   - Port Scanner
   - Network Packet Sniffer
   - Firewall Rule Generator
+  - Network Traffic Analyzer
 
 - **[Web Security](web-security.html)**: Focus on web applications, where many vulnerabilities occur.
   - Log Analyzer & Intrusion Detection
