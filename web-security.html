@@ -346,6 +346,34 @@
             margin: 32px 0;
         }
 
+        /* Navigation */
+        .nav {
+            margin-bottom: 16px;
+        }
+
+        .nav a {
+            color: var(--gh-text-secondary);
+            font-size: 0.875rem;
+            margin: 0 12px;
+        }
+
+        .nav a:hover {
+            color: var(--gh-accent);
+        }
+
+        .home-link {
+            position: absolute;
+            top: 16px;
+            left: 32px;
+            font-size: 0.875rem;
+            color: var(--gh-text-muted);
+        }
+
+        .home-link:hover {
+            color: var(--gh-accent);
+        }
+
+        
         .footer {
             background: var(--gh-bg-tertiary);
             color: var(--gh-text-primary);
@@ -419,6 +447,12 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            .home-link {
+                position: static;
+                display: block;
+                margin-bottom: 8px;
+            }
+
             body {
                 padding: 8px;
                 font-size: 14px;
@@ -472,6 +506,34 @@
                 gap: 8px;
             }
 
+        /* Navigation */
+        .nav {
+            margin-bottom: 16px;
+        }
+
+        .nav a {
+            color: var(--gh-text-secondary);
+            font-size: 0.875rem;
+            margin: 0 12px;
+        }
+
+        .nav a:hover {
+            color: var(--gh-accent);
+        }
+
+        .home-link {
+            position: absolute;
+            top: 16px;
+            left: 32px;
+            font-size: 0.875rem;
+            color: var(--gh-text-muted);
+        }
+
+        .home-link:hover {
+            color: var(--gh-accent);
+        }
+
+        
             .footer {
                 padding: 24px 20px;
             }
@@ -537,6 +599,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <a href="index.html" class="home-link">← Home</a>
             <h1>Web Security Projects</h1>
             <p class="subtitle">Learn web application security and vulnerability assessment!</p>
         </div>
@@ -740,6 +803,14 @@ def test_sql_injection(url):
         </div>
 
         <div class="footer">
+            <div class="nav">
+                <a href="index.html">Home</a> |
+                <a href="fundamentals.html">Fundamentals</a> |
+                <a href="network-security.html">Network Security</a> |
+                <a href="web-security.html">Web Security</a> |
+                <a href="advanced-projects.html">Advanced Projects</a> |
+                <a href="cybersecurity-projects-for-beginners.html">All Projects</a>
+            </div>
             <p><em>Happy hacking (ethically), and welcome to the world of cybersecurity engineering!</em> <span class="emoji">🛡️</span></p>
             <p><strong>Author:</strong> jaspreet_singh</p>
             <p><strong>©</strong> 2025</p>

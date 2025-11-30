@@ -346,6 +346,34 @@
             margin: 32px 0;
         }
         
+        /* Navigation */
+        .nav {
+            margin-bottom: 16px;
+        }
+
+        .nav a {
+            color: var(--gh-text-secondary);
+            font-size: 0.875rem;
+            margin: 0 12px;
+        }
+
+        .nav a:hover {
+            color: var(--gh-accent);
+        }
+
+        .home-link {
+            position: absolute;
+            top: 16px;
+            left: 32px;
+            font-size: 0.875rem;
+            color: var(--gh-text-muted);
+        }
+
+        .home-link:hover {
+            color: var(--gh-accent);
+        }
+
+        
         .footer {
             background: var(--gh-bg-tertiary);
             color: var(--gh-text-primary);
@@ -451,6 +479,12 @@
         
         /* Responsive Design */
         @media (max-width: 768px) {
+            .home-link {
+                position: static;
+                display: block;
+                margin-bottom: 8px;
+            }
+
             body {
                 padding: 8px;
                 font-size: 14px;
@@ -504,6 +538,34 @@
                 gap: 8px;
             }
             
+        /* Navigation */
+        .nav {
+            margin-bottom: 16px;
+        }
+
+        .nav a {
+            color: var(--gh-text-secondary);
+            font-size: 0.875rem;
+            margin: 0 12px;
+        }
+
+        .nav a:hover {
+            color: var(--gh-accent);
+        }
+
+        .home-link {
+            position: absolute;
+            top: 16px;
+            left: 32px;
+            font-size: 0.875rem;
+            color: var(--gh-text-muted);
+        }
+
+        .home-link:hover {
+            color: var(--gh-accent);
+        }
+
+        
             .footer {
                 padding: 24px 20px;
             }
@@ -573,6 +635,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <a href="index.html" class="home-link">← Home</a>
             <h1>10 Beginner-Friendly Cybersecurity Projects for Aspiring Security Engineers</h1>
             <p class="subtitle">Starting your journey in cybersecurity? Here are practical projects to build your skills!</p>
         </div>
@@ -609,7 +672,7 @@
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 1: Password Strength Checker</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="password-strength-checker.html">Project 1: Password Strength Checker</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐☆☆☆</span>
@@ -666,7 +729,7 @@ def check_password_strength(password):
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 2: Port Scanner</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="port-scanner.html">Project 2: Port Scanner</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐☆☆☆</span>
@@ -723,7 +786,7 @@ def scan_host(host, ports):
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 3: File Integrity Monitor</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="file-integrity-monitor.html">Project 3: File Integrity Monitor</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐☆☆☆</span>
@@ -780,7 +843,7 @@ def monitor_file(filepath, baseline_hash):
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 4: Log Analyzer & Intrusion Detection</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="log-analyzer.html">Project 4: Log Analyzer & Intrusion Detection</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐☆☆</span>
@@ -837,7 +900,7 @@ def analyze_auth_log(log_file):
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 5: Encrypted File Vault</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="encrypted-file-vault.html">Project 5: Encrypted File Vault</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐☆☆</span>
@@ -901,7 +964,7 @@ def encrypt_file(filepath, password):
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 6: Web Vulnerability Scanner</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="web-security.html">Project 6: Web Vulnerability Scanner</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐☆☆</span>
@@ -965,7 +1028,7 @@ def test_sql_injection(url):
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 7: Network Packet Sniffer</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="network-traffic-analyzer.html">Project 7: Network Packet Sniffer</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐☆☆</span>
@@ -1024,7 +1087,7 @@ sniff(prn=packet_callback, count=100)</code></pre>
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 8: Secure Chat Application</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="advanced-projects.html">Project 8: Secure Chat Application</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐⭐☆</span>
@@ -1072,7 +1135,7 @@ sniff(prn=packet_callback, count=100)</code></pre>
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 9: Firewall Rule Generator</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="network-security.html">Project 9: Firewall Rule Generator</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐☆☆</span>
@@ -1134,7 +1197,7 @@ sniff(prn=packet_callback, count=100)</code></pre>
 
             <div class="project-card">
                 <div class="project-header">
-                    <h2 style="margin: 0; border: none; padding: 0;">Project 10: Security Audit Tool</h2>
+                    <h2 style="margin: 0; border: none; padding: 0;"><a href="advanced-projects.html">Project 10: Security Audit Tool</a></h2>
                 </div>
                 <div class="project-header">
                     <span class="difficulty"><strong>Difficulty:</strong> ⭐⭐⭐⭐☆</span>
@@ -1334,6 +1397,14 @@ sniff(prn=packet_callback, count=100)</code></pre>
         </div>
 
         <div class="footer">
+            <div class="nav">
+                <a href="index.html">Home</a> |
+                <a href="fundamentals.html">Fundamentals</a> |
+                <a href="network-security.html">Network Security</a> |
+                <a href="web-security.html">Web Security</a> |
+                <a href="advanced-projects.html">Advanced Projects</a> |
+                <a href="cybersecurity-projects-for-beginners.html">All Projects</a>
+            </div>
             <p><em>Happy hacking (ethically), and welcome to the world of cybersecurity engineering!</em> <span class="emoji">🛡️</span></p>
             <p><strong>Author:</strong> jaspreet_singh</p>
             <p><strong>©</strong> 2025</p>
